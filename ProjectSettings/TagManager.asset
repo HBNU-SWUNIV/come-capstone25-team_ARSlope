@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - spline
+  - Spline
   layers:
   - Default
   - TransparentFX

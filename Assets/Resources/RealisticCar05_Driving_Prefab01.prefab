@@ -1824,7 +1824,7 @@ MonoBehaviour:
   dashMultiplier: 2
   turnSpeed: 100
   respawnHeightOffset: 5
-  respawnLift: 0.1
+  respawnLift: 0.5
   progress: 0
 --- !u!114 &3027228673675281356
 MonoBehaviour:
@@ -1846,6 +1846,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 9100370207633264447}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

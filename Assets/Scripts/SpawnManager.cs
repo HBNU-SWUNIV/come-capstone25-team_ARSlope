@@ -12,17 +12,28 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 {
     public GameObject cubePrefab; // 생성할 프리팹
     
+    private List<Transform> selectedObjects = new List<Transform>();
     private List<int> spawnedObjectIDs = new List<int>(); // 선택한 오브젝트들
     public SplineContainer splineContainer; // 스플라인 연결용
 
     public Transform spawnRootObject; // 생성할 루트 오브젝트
 
-    public GameObject carPrefab;
+    public GameObject player1CarPrefab;
+    public GameObject player2CarPrefab;
     private bool hasCar = false;
+
+    public PhysicsMaterial physicMaterial;
+    SplineExtrude splineExtrude;
+
 
     private void Awake()
     {
         CoreServices.InputSystem.RegisterHandler<IMixedRealityPointerHandler>(this);
+    }
+
+    private void Start()
+    {
+        splineExtrude = GetComponent<SplineExtrude>();
     }
 
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
@@ -63,6 +74,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
             // 클릭한 위치를 직접 Frozen 공간으로 변환
             Vector3 frozenPosition = frozenFromLockedMatrix.MultiplyPoint3x4(lockedPosition);
 
+
             // 물체 생성 (번갈아가며 생성)
             if (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
             {
@@ -96,7 +108,6 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
     [PunRPC]
     private void ViewIDToTransform(int[] spawnedObjectIDs)
     {
-        List<Transform> selectedObjects = new List<Transform>();
         foreach (int viewID in spawnedObjectIDs)
         {
             PhotonView pv = PhotonView.Find(viewID);
@@ -167,6 +178,14 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 
         spline.Closed = true;
 
+        // 스플라인 너비 조정
+        float4x4 localToWorld = float4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
+        float totalLength = SplineUtility.CalculateLength(spline, localToWorld);
+        if (splineExtrude != null)
+        {
+            splineExtrude.Radius = Mathf.Clamp(totalLength * 0.05f, 0.1f, 5f);
+        }
+
         // SplineExtrude의 메쉬에 MeshCollider 자동 추가
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         if (meshFilter != null && meshFilter.sharedMesh != null)
@@ -177,6 +196,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 
             meshCollider.sharedMesh = meshFilter.sharedMesh;
             meshCollider.convex = false;
+            meshCollider.material = physicMaterial;
         }
 
         Debug.Log("Spline 생성 완료");
@@ -203,25 +223,52 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 
     void SpawnCarOnSpline()
     {
-        if (carPrefab == null || splineContainer == null)
+        if (splineContainer == null)
         {
-            Debug.LogWarning("CarPrefab, SplineContainer, 또는 MiniCamera가 연결되지 않았습니다.");
+            Debug.LogWarning("SplineContainer가 연결되지 않았습니다.");
             return;
         }
 
-        // 스플라인 시작 위치 계산
-        splineContainer.Spline.Evaluate(0f, out float3 pos, out float3 tangent, out float3 up);
-        Vector3 splinePos = (Vector3)pos;
+        // ── ① 시작점 정보
+        splineContainer.Spline.Evaluate(0f, out float3 posF3, out float3 tanF3, out float3 upF3);
+        Vector3 center = (Vector3)posF3;
+        Vector3 forward = ((Vector3)tanF3).normalized;
+        Vector3 up = ((Vector3)upF3).normalized;
+        Vector3 right = Vector3.Cross(up, forward).normalized;
+
+        // ── ③ 차선 간격 = 트랙 반지름 기반
+        float laneOffset = splineExtrude.Radius * 0.4f;     // 트랙 폭의 절반
+        float heightLift = splineExtrude.Radius * 0.2f;    // 살짝 띄우기
+
+        Vector3 leftPos = center - right * laneOffset + up * heightLift;
+        Vector3 rightPos = center + right * laneOffset + up * heightLift;
+        Quaternion rot = Quaternion.LookRotation(forward, up);
 
         // 자동차 생성
-        GameObject spawnedCar = PhotonNetwork.Instantiate(carPrefab.name, splinePos + Vector3.up * 0.5f, Quaternion.LookRotation(tangent, up));
-        spawnedCar.transform.parent = spawnRootObject;
-
-        var mover = spawnedCar.GetComponent<CarMove>();
-        if (mover != null)
+        float carScale = splineExtrude.Radius * 0.15f;
+        if (PhotonNetwork.IsMasterClient)
         {
-            mover.progress = 0f;
-            mover.splineContainer = splineContainer;
+            GameObject player1Car = PhotonNetwork.Instantiate(player1CarPrefab.name, leftPos, rot, 0, new object[] {carScale});
+            player1Car.transform.parent = spawnRootObject;
+
+            var mover = player1Car.GetComponent<CarMove>();
+            if (mover != null)
+            {
+                mover.progress = 0f;
+                mover.splineContainer = splineContainer;
+            }
+        }
+        else
+        {
+            GameObject player2Car = PhotonNetwork.Instantiate(player2CarPrefab.name, rightPos, rot, 0,  new object[] {carScale});
+            player2Car.transform.parent = spawnRootObject;
+
+            var mover = player2Car.GetComponent<CarMove>();
+            if (mover != null)
+            {
+                mover.progress = 0f;
+                mover.splineContainer = splineContainer;
+            }
         }
 
         this.enabled = false; // 스크립트 비활성화

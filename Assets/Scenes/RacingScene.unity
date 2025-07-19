@@ -775,9 +775,10 @@ GameObject:
   - component: {fileID: 582734158}
   - component: {fileID: 582734157}
   - component: {fileID: 582734156}
+  - component: {fileID: 582734159}
   m_Layer: 0
   m_Name: Spawn Manager
-  m_TagString: spline
+  m_TagString: Spline
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -812,7 +813,9 @@ MonoBehaviour:
   cubePrefab: {fileID: 1809303842820115598, guid: eb50f311b1335794ebe3dc659e9edb95, type: 3}
   splineContainer: {fileID: 582734155}
   spawnRootObject: {fileID: 176331052}
-  carPrefab: {fileID: 9175284821482025314, guid: 87aa738c231fa5542b66ffede9d98a6d, type: 3}
+  player1CarPrefab: {fileID: 1162913772527864, guid: bddb69d096ac97b428efb74015ef3bac, type: 3}
+  player2CarPrefab: {fileID: 1871643225004740, guid: cca288e44fa3386428be05f63e4567ce, type: 3}
+  physicMaterial: {fileID: 13400000, guid: 2c255d36af52fee4da8b5f3c7a51b68f, type: 2}
 --- !u!114 &582734154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,12 +892,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Container: {fileID: 582734155}
   m_RebuildOnSplineChange: 1
-  m_RebuildFrequency: 30
+  m_RebuildFrequency: 999999
   m_UpdateColliders: 1
   m_Sides: 8
-  m_SegmentsPerUnit: 20
+  m_SegmentsPerUnit: 25
   m_Capped: 0
-  m_Radius: 0.25
+  m_Radius: 0.3
   m_Range: {x: 0, y: 1}
   m_FlipNormals: 0
   m_Shape:
@@ -958,6 +961,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582734151}
   m_Mesh: {fileID: 4300000, guid: 50f529941cdffc440b2821e9249dc589, type: 2}
+--- !u!54 &582734159
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582734151}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &604124335
 GameObject:
   m_ObjectHideFlags: 0

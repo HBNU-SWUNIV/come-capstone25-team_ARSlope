@@ -10,7 +10,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings(); // 포톤 기본 설정
     }
 
-    public override void OnConnectedToMaster()
+     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Master Server");
         // 최대 인원이 2명인 방 생성 또는 접속

@@ -23,10 +23,22 @@ public class CarMove : MonoBehaviourPunCallbacks
     private Vector3 lastGroundedPosition = Vector3.zero;
     private float lastGroundedProgress;
     private Rigidbody rb;
+    
+    private RaceManager raceManager; // RaceManager 참조
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
+        raceManager = FindObjectOfType<RaceManager>(); // RaceManager 찾기
+        if (raceManager == null)
+        {
+            Debug.LogError("RaceManager가 씬에 존재하지 않습니다!");
+        }
+        else
+        {
+            Debug.Log("RaceManager가 정상적으로 할당되었습니다.");
+        }
     }
 
     private void FixedUpdate()
@@ -36,6 +48,17 @@ public class CarMove : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
             HandMove();
         else return;
+        
+        // 바퀴 수 업데이트
+        if (raceManager != null)
+        {
+            raceManager.UpdateLapProgress(progress);
+            Debug.Log("LapProgress 업데이트");
+        }
+        else
+        {
+            Debug.LogError("RaceManager가 null입니다!");
+        }
         //KeyMove();    
     }
 

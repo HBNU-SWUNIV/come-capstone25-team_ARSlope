@@ -22,14 +22,9 @@ public class SelectedObject : MonoBehaviourPunCallbacks
         }
         else
         {
-            GetComponent<MeshRenderer>().material.color = Color.yellow;
-            text.color = Color.yellow;
+            GetComponent<MeshRenderer>().material.color = Color.red;
+            text.color = Color.red;
         }
-    }
-
-    private void Update()
-    {
-        //text.transform.rotation = Quaternion.LookRotation(transform.position - Camera.main.transform.position);
     }
 
     // 물체 위치 고정 및 동기화

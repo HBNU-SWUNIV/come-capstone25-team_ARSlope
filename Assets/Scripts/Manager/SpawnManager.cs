@@ -85,7 +85,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
                 photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
             }
             else return;
-
+            
             //// 큐브 크기 조정
             //Vector3 originScale = Vector3.one * 0.1f;
             //cube.transform.localScale = originScale * Mathf.Max(1f, eventData.Pointer.Result.Details.RayDistance);

@@ -28,7 +28,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.InRoom)
         {
             // 접속 인원이 2명이 아닌 경우
-            if (PhotonNetwork.CurrentRoom.PlayerCount != 2)
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
             {
                 UIManager.instance.PlayerWatingUI(true); // 플레이어 대기 UI 활성화
             }

@@ -13,6 +13,6 @@ public class TitleManager : MonoBehaviour
     // 게임 시작
     public void StartGame()
     {
-        SceneManager.LoadScene("RacingScene");
+        SceneManager.LoadScene("Racing");
     }
 }

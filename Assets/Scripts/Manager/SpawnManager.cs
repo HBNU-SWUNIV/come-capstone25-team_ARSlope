@@ -76,15 +76,20 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
             Vector3 frozenPosition = frozenFromLockedMatrix.MultiplyPoint3x4(lockedPosition);
 
 
-            // 물체 생성 (번갈아가며 생성)
-            if (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
-            {
-                GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
-                cube.transform.parent = spawnRootObject;
-                // 물체의 ViewID를 파라미터로 설정
-                photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
-            }
-            else return;
+            // // 물체 생성 (번갈아가며 생성)
+            // if (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
+            // {
+            //     GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
+            //     cube.transform.parent = spawnRootObject;
+            //     // 물체의 ViewID를 파라미터로 설정
+            //     photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
+            // }
+            // else return;
+            
+            GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
+            cube.transform.parent = spawnRootObject;
+            // 물체의 ViewID를 파라미터로 설정
+            photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
             
             //// 큐브 크기 조정
             //Vector3 originScale = Vector3.one * 0.1f;

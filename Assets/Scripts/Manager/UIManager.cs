@@ -3,7 +3,9 @@ using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 using Photon.Pun;
 using Unity.Mathematics;
+using UnityEngine.UI;
 using UnityEngine.Splines;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviourPun
 {
@@ -13,6 +15,9 @@ public class UIManager : MonoBehaviourPun
     public GameObject objectSelectUI; // 오브젝트 개수 선택 UI
     public GameObject clientWatingUI; // 마스터가 오브젝트 개수 선택 전까지 클라이언트 대기 UI
     public GameObject gameoverUI; // 게임오버 UI
+    public MeshRenderer gameResult;
+    
+    public List<Material> resultMaterials;
     
     public SplineContainer splineContainer;
 
@@ -39,6 +44,7 @@ public class UIManager : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("SelectObjectCount: " + count);
             photonView.RPC("StartSelectedObject", RpcTarget.All, count);
         }
     }
@@ -70,10 +76,10 @@ public class UIManager : MonoBehaviourPun
     }
 
     // 게임 종료시 UI 활성화 및 위치 조정
-    public void GameoverUI(bool active)
+    public void GameoverUI(bool isWinner)
     {
-        gameoverUI.SetActive(active);
-        gameoverUI.GetComponentInChildren<ButtonConfigHelper>().MainLabelText += "Game Over!\n";
+        gameoverUI.SetActive(true);
+        gameResult.material = isWinner ? resultMaterials[0] : resultMaterials[1];
         PlaceObjectAtSplineCenter();
     }
     void PlaceObjectAtSplineCenter()

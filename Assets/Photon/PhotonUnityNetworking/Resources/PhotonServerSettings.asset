@@ -53,6 +53,11 @@ MonoBehaviour:
   - ViewIDToTransform
   - SpawnCarOnSpline
   - GameOver
+  - OnGameOver
+  - RPC_OnGameOver
+  - ReportFinish
+  - ReportPlayerReady
+  - StartRaceForAll
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

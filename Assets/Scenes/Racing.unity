@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50eada435d5218347a10f1f81cda3faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalLaps: 1
 --- !u!114 &4570519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_Name
-      value: PressableButtonHoloLens2TextOnly4Lines_48x96
+      value: Gameover
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494762276866, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_IsActive
@@ -478,6 +479,11 @@ PrefabInstance:
 --- !u!4 &263636256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6180816494796116559, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
+  m_PrefabInstance: {fileID: 263636255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &263636257 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3244190794859537688, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
   m_PrefabInstance: {fileID: 263636255}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &315572854
@@ -631,10 +637,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2078300787}
-  - {fileID: 582734152}
-  - {fileID: 1405412458}
   - {fileID: 780550430}
+  - {fileID: 582734152}
   - {fileID: 4570517}
+  - {fileID: 1405412458}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &562404189
@@ -705,18 +711,6 @@ PrefabInstance:
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 2979745883745561993, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: iconSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 8b386ef895f7c924f8c4b03d1d3ed683, type: 2}
-    - target: {fileID: 2979745883745561993, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: iconStyle
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2979745883745561993, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: iconQuadTexture
-      value: 
-      objectReference: {fileID: 2800000, guid: bb1b4a9241fba2042a81428e917afd5d, type: 3}
     - target: {fileID: 3495383534730539740, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -734,10 +728,6 @@ PrefabInstance:
       value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 4324797063810421994, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324797063810421994, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
@@ -752,10 +742,6 @@ PrefabInstance:
     - target: {fileID: 4324797063913380481, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_textAlignment
       value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324797063913380481, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 4324797063913380481, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
@@ -774,10 +760,6 @@ PrefabInstance:
       value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 4324797065100468102, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324797065100468102, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
@@ -789,17 +771,41 @@ PrefabInstance:
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
       objectReference: {fileID: 0}
-    - target: {fileID: 4857302740589287467, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_text
-      value: Five
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 780550431}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnMasterSelectObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703395892635680290, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
+      propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4857302740589287467, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_textAlignment
       value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302740589287467, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 4857302740589287467, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
@@ -817,25 +823,13 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4857302740840230093, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4857302740960548414, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4857302740960548416, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_text
-      value: Three
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302740960548416, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_textAlignment
       value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302740960548416, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 4857302740960548416, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
@@ -851,11 +845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741068522055, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_Name
-      value: PressableButtonHoloLens2Bar3H
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302741068522055, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741068522056, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -867,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741068522056, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741068522056, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -898,16 +888,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741700681004, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_text
-      value: Four
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302741700681004, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_textAlignment
       value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302741700681004, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 4857302741700681004, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_VerticalAlignment
@@ -924,10 +906,6 @@ PrefabInstance:
     - target: {fileID: 4857302741700681042, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4857302742545332698, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4904766016399350110, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_IsActive
@@ -956,10 +934,6 @@ PrefabInstance:
     - target: {fileID: 7066097617147125346, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7594641650767418944, guid: 13a98fb31f16fe6459056db9f73a215d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1312,6 +1286,10 @@ MonoBehaviour:
   objectSelectUI: {fileID: 1940492272}
   clientWatingUI: {fileID: 1092378555}
   gameoverUI: {fileID: 2075635419}
+  gameResult: {fileID: 263636257}
+  resultMaterials:
+  - {fileID: 2100000, guid: b7f550d300e5f8b4992e3633419fa1cb, type: 2}
+  - {fileID: 2100000, guid: 13fe3a2361c1e6740af888e185f95e7d, type: 2}
   splineContainer: {fileID: 582734155}
 --- !u!114 &780550432
 MonoBehaviour:
@@ -1655,7 +1633,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000006503037, y: 9.6198544e-17, z: 1.068252e-24, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0.5}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 3, y: 6, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1291186386}
@@ -1723,7 +1701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_Name
-      value: PressableButtonHoloLens2TextOnly4Lines_48x96
+      value: Player Wating
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_IsActive
@@ -1795,6 +1773,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1092378556}
     m_Modifications:
+    - target: {fileID: 2750617519436556974, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3244190794859537688, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ca4edaa618577a84da182332042191da, type: 2}
     - target: {fileID: 3640495471819635213, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: enabledOnStart
       value: 0
@@ -1831,7 +1817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_Name
-      value: PressableButtonHoloLens2TextOnly4Lines_48x96
+      value: Client Wating
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494762276866, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_IsActive
@@ -1875,6 +1861,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494796116559, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208637029638915422, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2046,7 +2036,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_Name
-      value: PressableButtonHoloLens2TextOnly4Lines_48x96
+      value: Object Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180816494276547758, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6180816494762276866, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
       propertyPath: m_IsActive

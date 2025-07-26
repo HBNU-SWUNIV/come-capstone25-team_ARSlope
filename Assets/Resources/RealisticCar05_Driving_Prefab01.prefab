@@ -1674,6 +1674,7 @@ GameObject:
   - component: {fileID: -2824741908685331739}
   - component: {fileID: 3027228673675281356}
   - component: {fileID: -3177953671225922639}
+  - component: {fileID: -5599360737771694919}
   m_Layer: 0
   m_Name: RealisticCar05_Driving_Prefab01
   m_TagString: Player
@@ -1824,7 +1825,7 @@ MonoBehaviour:
   dashMultiplier: 2
   turnSpeed: 100
   respawnHeightOffset: 5
-  respawnLift: 0.2
+  respawnLift: 0.1
   progress: 0
 --- !u!114 &3027228673675281356
 MonoBehaviour:
@@ -1842,10 +1843,11 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
   - {fileID: -3177953671225922639}
+  - {fileID: -5599360737771694919}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -1882,6 +1884,19 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &-5599360737771694919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162913772527864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d68969ffeb29be4484d30dc130e80a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpRate: 15
 --- !u!1 &1163069426437424
 GameObject:
   m_ObjectHideFlags: 0

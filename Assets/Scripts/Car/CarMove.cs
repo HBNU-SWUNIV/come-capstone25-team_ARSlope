@@ -12,7 +12,6 @@ public class CarMove : MonoBehaviourPunCallbacks
     [Header("Spline & Speed")]
     public SplineContainer splineContainer;
     public float speed = 0.3f;
-    public float turnSpeed = 100f;
 
     [Tooltip("리스폰 시 트랙에서 들어올릴 y 오프셋(m)")]
     public float respawnLift = 0.1f;
@@ -28,10 +27,9 @@ public class CarMove : MonoBehaviourPunCallbacks
     private Rigidbody rb;
     private RaceManager raceManager;
 
-    // 랩 카운트 & 우승
-    private int lapCount = 0;
     [SerializeField] private int goalLaps = 3;    // 차량별 목표 랩 수
     private float prevProgress = 0f;
+    private float lapProgress = 0f;               // 연속적인 랩 진행도 (0~goalLaps)
     private bool finished = false;
 
     // 스타트 지연
@@ -70,7 +68,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         }
 
         if (LOG_EVERY_FRAME)
-            Debug.Log($"[{photonView.OwnerActorNr}] prog:{progress:F3}  Δ:{progress - prevProgress:+0.000;-0.000}");
+            Debug.Log($"[{photonView.OwnerActorNr}] prog:{progress:F3}  lapProg:{lapProgress:F3}");
     }
 
     // ──────────────────────────────────────────
@@ -124,30 +122,21 @@ public class CarMove : MonoBehaviourPunCallbacks
 
     private void DetectLapAndWin()
     {
-        float delta = progress - prevProgress;  // 이번 프레임 변화량
-
-        // 0.5 이상 감소 ⇒ 1 ➜ 0 래핑(스타트라인 통과)
-        if (!finished && delta < -0.5f)
+        // 승리 조건 체크: lapProgress가 goalLaps에 도달
+        if (!finished && lapProgress >= goalLaps)
         {
-            lapCount++;
-            Debug.Log($"[{photonView.OwnerActorNr}] Lap {lapCount}/{goalLaps}");
+            finished = true;
+            Debug.Log($"[{photonView.OwnerActorNr}] Race Finished! Final lapProgress: {lapProgress:F3}");
 
-            if (lapCount >= goalLaps)
+            if (PhotonNetwork.IsMasterClient)
             {
-                finished = true;
-
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    raceManager.DeclareWinner(PhotonNetwork.LocalPlayer.ActorNumber);
-                }
-                else
-                {
-                    raceManager.photonView.RPC("RPC_RequestDeclareWinner", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
-                }
+                raceManager.DeclareWinner(PhotonNetwork.LocalPlayer.ActorNumber);
+            }
+            else
+            {
+                raceManager.photonView.RPC("RPC_RequestDeclareWinner", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber);
             }
         }
-
-        prevProgress = progress;       // 다음 비교용
     }
 
     #endregion
@@ -163,6 +152,14 @@ public class CarMove : MonoBehaviourPunCallbacks
         // 진행도 계산 (0‒1)
         progress = CalculateProgressFromPosition(transform.position);
         if (progress >= 1f) progress -= 1f;
+
+        // UpdateLapProgress 로직 통합
+        float deltaProgress = progress - prevProgress;
+        if (deltaProgress < -0.5f) deltaProgress += 1f;
+        else if (deltaProgress > 0.5f) deltaProgress -= 1f;
+
+        lapProgress += deltaProgress;
+        prevProgress = progress;
 
         lastSafeProgress = progress; // 온트랙으로 판정된 가장 최근 진행도 저장
 

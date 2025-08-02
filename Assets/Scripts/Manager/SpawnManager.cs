@@ -101,7 +101,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         if (UIManager.instance.maxSpawnObjectCount == spawnedObjectIDs.Count)
         {
             CoreServices.SpatialAwarenessSystem.Disable(); // 공간 비활성화
-            photonView.RPC("ViewIDToTransform", RpcTarget.AllBuffered, spawnedObjectIDs.ToArray()); // ViewID를 Transform으로 변환
+            photonView.RPC("ViewIDToTransform", RpcTarget.MasterClient, spawnedObjectIDs.ToArray()); // ViewID를 Transform으로 변환 (마스터 클라이언트에서만)
         }
     }
 
@@ -109,16 +109,25 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
     [PunRPC]
     private void ViewIDToTransform(int[] spawnedObjectIDs)
     {
+        Debug.Log("spawnedObjectIDs: " + spawnedObjectIDs.Length);
+        
+        // 기존 데이터 초기화
+        selectedObjects.Clear();
+        
         foreach (int viewID in spawnedObjectIDs)
         {
             PhotonView pv = PhotonView.Find(viewID);
             if (pv != null)
             {
                 selectedObjects.Add(pv.transform);
+                Debug.Log("selectedObjects: " + selectedObjects.Count);
             }
         }
 
-        CreateSpline(selectedObjects); // 스플라인 생성
+        if (PhotonNetwork.IsMasterClient)
+        {
+            CreateSpline(selectedObjects); // 스플라인 생성
+        }
     }
 
     // 스플라인 생성

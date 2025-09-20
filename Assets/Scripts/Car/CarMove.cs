@@ -210,7 +210,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         if (other.CompareTag("Item"))
         {
             Debug.Log("아이템 획득!");
-            Destroy(other.gameObject);
+            PhotonNetwork.Destroy(other.gameObject);
 
             ItemEffectHandler effectHandler = GetComponent<ItemEffectHandler>();
             if (effectHandler != null)

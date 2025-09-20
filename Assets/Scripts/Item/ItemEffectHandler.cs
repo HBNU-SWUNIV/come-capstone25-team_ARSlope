@@ -35,12 +35,13 @@ public class ItemEffectHandler : MonoBehaviourPun
     {
         if (currentItemVisual != null)
         {
-            Destroy(currentItemVisual);
+            PhotonNetwork.Destroy(currentItemVisual);
         }
 
-        currentItemVisual = PhotonNetwork.Instantiate(itemPrefab.name, itemDisplayPoint.position, itemDisplayPoint.rotation);
+        var itemScale = carMove.GetSize() * 15f;
+        currentItemVisual = PhotonNetwork.Instantiate(
+            itemPrefab.name, itemDisplayPoint.position, itemDisplayPoint.rotation, 0, new object[] {itemScale});
         currentItemVisual.transform.parent = itemDisplayPoint.transform;
-        currentItemVisual.transform.localScale = carMove.GetSize() * 15f;
 
         // 표시 시간 후 자동 제거
         StartCoroutine(RemoveItemVisualAfter(duration));
@@ -52,7 +53,7 @@ public class ItemEffectHandler : MonoBehaviourPun
 
         if (currentItemVisual != null)
         {
-            Destroy(currentItemVisual);
+            PhotonNetwork.Destroy(currentItemVisual);
             currentItemVisual = null;
         }
     }

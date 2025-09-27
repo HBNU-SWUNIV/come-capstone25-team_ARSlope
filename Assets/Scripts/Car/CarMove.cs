@@ -36,7 +36,7 @@ public class CarMove : MonoBehaviourPunCallbacks
     private bool raceStarted = false;
 
     // 디버그 플래그
-    private const bool LOG_EVERY_FRAME = false;
+    private const bool LOG_EVERY_FRAME = true;
 
     // 리스폰 관련
     private float lastSafeProgress = 0f;   // 마지막으로 "온트랙" 판정된 위치
@@ -46,12 +46,6 @@ public class CarMove : MonoBehaviourPunCallbacks
     {
         rb = GetComponent<Rigidbody>();
         raceManager ??= FindAnyObjectByType<RaceManager>();
-        progress = 0f;
-
-        if (splineContainer == null)
-        {
-            splineContainer = FindAnyObjectByType<SplineContainer>();
-        }
 
         StartCoroutine(StartRaceAfterDelay());
     }
@@ -75,11 +69,6 @@ public class CarMove : MonoBehaviourPunCallbacks
 
         if (LOG_EVERY_FRAME)
             Debug.Log($"[{photonView.OwnerActorNr}] prog:{progress:F3}  lapProg:{lapProgress:F3}");
-    }
-
-    public Vector3 GetSize()
-    {
-        return this.gameObject.transform.localScale;
     }
 
     // ──────────────────────────────────────────
@@ -204,19 +193,4 @@ public class CarMove : MonoBehaviourPunCallbacks
     }
 
     #endregion
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Item"))
-        {
-            Debug.Log("아이템 획득!");
-            PhotonNetwork.Destroy(other.gameObject);
-
-            ItemEffectHandler effectHandler = GetComponent<ItemEffectHandler>();
-            if (effectHandler != null)
-            {
-                effectHandler.ApplyItemEffect();
-            }
-        }
-    }
 }

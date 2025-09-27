@@ -13802,7 +13802,6 @@ GameObject:
   - component: {fileID: -5771284048525111077}
   - component: {fileID: -2937016033546743479}
   - component: {fileID: -6983789159989500877}
-  - component: {fileID: 7295613859166751727}
   m_Layer: 0
   m_Name: RealisticCar05_Driving_Prefab02
   m_TagString: Player
@@ -13829,7 +13828,6 @@ Transform:
   - {fileID: 4662861732340392}
   - {fileID: 4153241270145196}
   - {fileID: 4083496521396260}
-  - {fileID: 9056259542724131352}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &54738686462395054
@@ -14026,25 +14024,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lerpRate: 15
---- !u!114 &7295613859166751727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871643225004740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9a09187436d92546b240d2a60add68a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemDisplayPoint: {fileID: 9056259542724131352}
-  crownPrefab: {fileID: 8888413695247917893, guid: 5c887b864f380774a97032b83ca74a9b, type: 3}
-  goldPrefab: {fileID: 840987506194005189, guid: 6fa5c6f118f67ef48868dc2ccd5c5368, type: 3}
-  boosterPrefab: {fileID: 6454301430270579990, guid: 932eb06fda237574a92cc294ec3042cb, type: 3}
-  bombPrefab: {fileID: 7334895902766689618, guid: d58edf60d053db8409d1341433f33ed4, type: 3}
-  oilRedPrefab: {fileID: 7243096277806350999, guid: 7144a51adebcd9e4e8f0468296adb983, type: 3}
-  oilGreenPrefab: {fileID: 2965347479976651862, guid: 3da4f1f0dd45bf84e8cbc27b3bdefa36, type: 3}
 --- !u!1 &1874366444790696
 GameObject:
   m_ObjectHideFlags: 0
@@ -15057,34 +15036,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &5836420880346390372
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9056259542724131352}
-  m_Layer: 0
-  m_Name: ItemDisplayPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9056259542724131352
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5836420880346390372}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4205258694095468}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

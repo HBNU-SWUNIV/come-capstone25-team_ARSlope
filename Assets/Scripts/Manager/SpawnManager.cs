@@ -12,7 +12,7 @@ using System.Linq;
 public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 {
     public GameObject cubePrefab; // 생성할 프리팹
-
+    
     private List<Transform> selectedObjects = new List<Transform>();
     private List<int> spawnedObjectIDs = new List<int>(); // 선택한 오브젝트들
     public SplineContainer splineContainer; // 스플라인 연결용
@@ -85,7 +85,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
                 photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
             }
             else return;
-
+            
             //// 큐브 크기 조정
             //Vector3 originScale = Vector3.one * 0.1f;
             //cube.transform.localScale = originScale * Mathf.Max(1f, eventData.Pointer.Result.Details.RayDistance);
@@ -110,10 +110,10 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
     private void ViewIDToTransform(int[] spawnedObjectIDs)
     {
         Debug.Log("spawnedObjectIDs: " + spawnedObjectIDs.Length);
-
+        
         // 기존 데이터 초기화
         selectedObjects.Clear();
-
+        
         foreach (int viewID in spawnedObjectIDs)
         {
             PhotonView pv = PhotonView.Find(viewID);
@@ -220,7 +220,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
     private IEnumerator WaitAndSpawnCar()
     {
         yield return new WaitForEndOfFrame();
-
+        
         if (!hasCar)
         {
             hasCar = true;
@@ -247,9 +247,9 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         // ② 차선 오프셋
         float laneOffset = splineExtrude.Radius * 0.2f;
         float heightLift = splineExtrude.Radius * 0.1f;
-        Vector3 leftPos = center - right * laneOffset + up * heightLift;
+        Vector3 leftPos  = center - right * laneOffset + up * heightLift;
         Vector3 rightPos = center + right * laneOffset + up * heightLift;
-        Quaternion rot = Quaternion.LookRotation(forward, up);
+        Quaternion rot   = Quaternion.LookRotation(forward, up);
 
         // ③ 공통 스케일
         float carScale = splineExtrude.Radius * 0.125f;
@@ -271,39 +271,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         if (other != null)
             rightCar.GetComponent<PhotonView>().TransferOwnership(other);
 
-
-        StartCoroutine(CheckSpawnAllCar(leftCar, rightCar));
-    }
-
-    private IEnumerator CheckSpawnAllCar(GameObject leftCar, GameObject rightCar)
-    {
-        while (leftCar == null || rightCar == null)
-        {
-            yield return new WaitForSecondsRealtime(0.1f);
-        }
-
-        // 아이템 생성 연결
-        ItemSpawner spawner = FindObjectOfType<ItemSpawner>();
-        if (spawner != null)
-        {
-            Debug.Log("👉 ItemSpawner.SpawnItemsWithDelay() 호출됨");
-            spawner.SpawnItemsWithDelay(); // 코루틴으로 호출
-        }
-        else
-        {
-            Debug.LogWarning("❌ ItemSpawner를 찾지 못했습니다.");
-        }
-
-        ObstacleSpawner obstacleSpawner = FindObjectOfType<ObstacleSpawner>();
-        if (obstacleSpawner != null)
-        {
-            Debug.Log("👉 ObstacleSpawner.SpawnObstacles() 호출됨");
-            obstacleSpawner.SpawnObstacles();
-        }
-        else
-        {
-            Debug.LogWarning("❌ ObstacleSpawner를 찾지 못했습니다.");
-        }
+        this.enabled = false;   // 스크립트 비활성화 (중복 스폰 방지)
     }
 
     void InitCar(GameObject car)
@@ -311,7 +279,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         var mover = car.GetComponent<CarMove>();
         if (mover != null)
         {
-            mover.progress = 0f;
+            mover.progress        = 0f;
             mover.splineContainer = splineContainer;
         }
     }

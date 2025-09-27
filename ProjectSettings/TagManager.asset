@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Spline
+  - Item
   layers:
   - Default
   - TransparentFX

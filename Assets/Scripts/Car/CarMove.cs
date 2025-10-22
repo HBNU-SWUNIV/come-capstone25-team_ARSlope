@@ -41,6 +41,7 @@ public class CarMove : MonoBehaviourPunCallbacks
     // 리스폰 관련
     private float lastSafeProgress = 0f;   // 마지막으로 "온트랙" 판정된 위치
     private float lastRespawnTime = -Mathf.Infinity;
+    private bool isMovingAllowed = true; // 차량 이동 허용 플래그
 
     private void Start()
     {
@@ -68,6 +69,19 @@ public class CarMove : MonoBehaviourPunCallbacks
 
         if (raceStarted)
         {
+            // 현재 진행도 위치의 트랙 표면 좌표 계산
+            splineContainer.Spline.Evaluate(progress, out var splinePosF3, out _, out _);
+            Vector3 splinePos = (Vector3)splinePosF3;
+
+            // 수직 높이 차 계산
+            float vertDist = Mathf.Abs(rb.position.y - splinePos.y);
+
+            // 차량이 트랙에서 크게 벗어나면 움직임 비활성화
+            if (vertDist > offTrackHeight * 1.5f) // 기존 offTrackHeight보다 더 엄격한 기준 적용
+            {
+                isMovingAllowed = false;
+            }
+
             UpdateProgressAndMove();   // 손/키 입력 → 차 이동
             MaybeRespawn();           // 트랙 이탈 체크
             DetectLapAndWin();        // 랩·우승 판정
@@ -114,9 +128,11 @@ public class CarMove : MonoBehaviourPunCallbacks
     /// </summary>
     private void RespawnAtProgress(float t)
     {
+        isMovingAllowed = false;
         splineContainer.Spline.Evaluate(t, out var posF3, out var tanF3, out var upF3);
         Vector3 newPos = (Vector3)posF3 + (Vector3)upF3 * respawnLift;
-        Quaternion newRot = Quaternion.LookRotation((Vector3)tanF3, (Vector3)upF3);
+        // 차량이 뒤집히는 것을 방지하기 위해 월드 '위' 방향을 기준으로 회전 설정
+        Quaternion newRot = Quaternion.LookRotation((Vector3)tanF3, Vector3.up);
 
         rb.position = newPos;
         rb.rotation = newRot;
@@ -124,6 +140,13 @@ public class CarMove : MonoBehaviourPunCallbacks
         rb.angularVelocity = Vector3.zero;
 
         Debug.Log($"[{photonView.OwnerActorNr}] Respawned at {t:F3}");
+        StartCoroutine(EnableMovementAfterDelay(respawnCooldown));
+    }
+
+    private IEnumerator EnableMovementAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isMovingAllowed = true;
     }
 
     #endregion
@@ -160,6 +183,8 @@ public class CarMove : MonoBehaviourPunCallbacks
     /// </summary>
     private void UpdateProgressAndMove()
     {
+        if (!isMovingAllowed) return;
+
         // 진행도 계산 (0‒1)
         progress = CalculateProgressFromPosition(transform.position);
         if (progress >= 1f) progress -= 1f;

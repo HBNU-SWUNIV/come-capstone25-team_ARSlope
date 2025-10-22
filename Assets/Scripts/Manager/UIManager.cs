@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviourPun
     public GameObject clientWatingUI; // 마스터가 오브젝트 개수 선택 전까지 클라이언트 대기 UI
     public GameObject gameoverUI; // 게임오버 UI
     public MeshRenderer gameResult;
-    
+    public TablePlaneDetector planeDetector;
+
     public List<Material> resultMaterials;
     
     public SplineContainer splineContainer;
@@ -50,6 +51,7 @@ public class UIManager : MonoBehaviourPun
     }
 
     // 물체 선택 시작
+    //여기에 함수 복붙해서 시작하도록
     [PunRPC]
     public void StartSelectedObject(int count)
     {
@@ -57,6 +59,16 @@ public class UIManager : MonoBehaviourPun
         CoreServices.SpatialAwarenessSystem.Enable();
         ObjectSelectUI(false);
         ClientWatingUI(false);
+
+        // 평면 인식 시작
+        if (planeDetector != null)
+        {
+            planeDetector.StartDetection();
+        }
+        else
+        {
+            Debug.LogWarning("[UIManager] planeDetector가 연결되지 않음");
+        }
     }
 
     // 플레이어 대기 UI 활성화 여부

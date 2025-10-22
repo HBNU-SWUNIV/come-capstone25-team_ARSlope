@@ -1289,6 +1289,7 @@ MonoBehaviour:
   clientWatingUI: {fileID: 1092378555}
   gameoverUI: {fileID: 2075635419}
   gameResult: {fileID: 263636257}
+  planeDetector: {fileID: 2034133987}
   resultMaterials:
   - {fileID: 2100000, guid: b7f550d300e5f8b4992e3633419fa1cb, type: 2}
   - {fileID: 2100000, guid: 13fe3a2361c1e6740af888e185f95e7d, type: 2}
@@ -2199,6 +2200,94 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6180816494796116559, guid: 8e9607bc5dcaf684db874e9b032d5d89, type: 3}
   m_PrefabInstance: {fileID: 1971686199}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2034133986
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034133988}
+  - component: {fileID: 2034133987}
+  m_Layer: 0
+  m_Name: PlaneDetectorRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2034133987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034133986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a18f897b3ec4f4ca151a9669346653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnManager: {fileID: 582734153}
+  useWorldLocking: 0
+  frozenFromLocked:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  snapToGravityThreshold: 5
+  minPlaneArea: 0.001
+  objectBandMin: 0.02
+  objectBandMax: 0.18
+  enableGrouping: 1
+  groupRadius: 0.08
+  minGroupPoints: 5
+  useGridClustering: 1
+  markerRadiusOrCell: 0.03
+  minClusterPoints: 2
+  dedupEpsilon: 0.003
+  maxMarkers: 1500
+  markerSize: 0.02
+  markerLift: 0.015
+  markerColor: {r: 1, g: 0, b: 0, a: 1}
+  showHull: 1
+  hullLineWidth: 0.01
+  hullColor: {r: 0, g: 1, b: 0, a: 1}
+  debugShowPlaneOutline: 1
+  debugShowSamples: 1
+  sampleSize: 0.02
+  debugParent: {fileID: 0}
+  debugVerboseLog: 1
+  ceilingAboveCamera: 0.2
+  floorBelowCamera: 0.6
+--- !u!4 &2034133988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034133986}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2075635419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,3 +2397,4 @@ SceneRoots:
   - {fileID: 498164092}
   - {fileID: 571869804}
   - {fileID: 1563328965}
+  - {fileID: 2034133988}

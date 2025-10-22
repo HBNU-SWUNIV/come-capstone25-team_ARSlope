@@ -59,6 +59,8 @@ MonoBehaviour:
   - ReportPlayerReady
   - StartRaceForAll
   - RPC_RequestDeclareWinner
+  - DestroySpawnedCubes
+  - DestroySpawnedCubesMaster
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

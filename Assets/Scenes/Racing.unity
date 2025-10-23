@@ -643,6 +643,7 @@ Transform:
   - {fileID: 1405412458}
   - {fileID: 1092097274}
   - {fileID: 1095084854}
+  - {fileID: 2034133988}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &562404189
@@ -1029,6 +1030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8beed178c0658eb4e97abc94563ed60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  singlePlayerMode: 1
   cubePrefab: {fileID: 1809303842820115598, guid: eb50f311b1335794ebe3dc659e9edb95, type: 3}
   splineContainer: {fileID: 582734155}
   spawnRootObject: {fileID: 176331052}
@@ -2273,6 +2275,7 @@ MonoBehaviour:
   debugVerboseLog: 1
   ceilingAboveCamera: 0.2
   floorBelowCamera: 0.6
+  showOnlyHulls: 1
 --- !u!4 &2034133988
 Transform:
   m_ObjectHideFlags: 0
@@ -2281,12 +2284,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034133986}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 498164092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2075635419
 GameObject:
@@ -2397,4 +2400,3 @@ SceneRoots:
   - {fileID: 498164092}
   - {fileID: 571869804}
   - {fileID: 1563328965}
-  - {fileID: 2034133988}

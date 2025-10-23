@@ -8,22 +8,23 @@ public class SelectedObject : MonoBehaviourPunCallbacks
 {
     public TextMeshPro text; // 텍스트 UI
 
-    private void Start()
+    private void OnEnable()
     {
-        text.text = "Player" + photonView.Owner.ActorNumber + " Select"; // 선택한 플레이어 ID 표기
-
-        // 내가 설치한 물체인 경우
-        if (photonView.IsMine)
+        if (text)
         {
-            // 물체 위치 동기화 및 색상 설정
-            photonView.RPC("SyncWorldLockedObject", RpcTarget.OthersBuffered, transform.position, transform.rotation);
-            GetComponent<MeshRenderer>().material.color = Color.green;
-            text.color = Color.green;
-        }
-        else
-        {
-            GetComponent<MeshRenderer>().material.color = Color.red;
-            text.color = Color.red;
+            // 내가 설치한 물체인 경우
+            if (photonView.IsMine)
+            {
+                // 물체 위치 동기화 및 색상 설정
+                photonView.RPC("SyncWorldLockedObject", RpcTarget.OthersBuffered, transform.position, transform.rotation);
+                GetComponent<MeshRenderer>().material.color = Color.green;
+                text.color = Color.green;
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().material.color = Color.red;
+                text.color = Color.red;
+            }
         }
     }
 

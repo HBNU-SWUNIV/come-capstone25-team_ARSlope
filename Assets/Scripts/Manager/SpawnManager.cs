@@ -23,13 +23,11 @@ using System.Linq;
 
 public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
 {
-    [Header("Test Mode")]
-    public bool singlePlayerMode = true; // 1인 테스트 모드: 턴 교대 규칙 우회
-
     public GameObject cubePrefab; // 생성할 프리팹
 
     private List<Transform> selectedObjects = new List<Transform>();
     private List<int> spawnedObjectIDs = new List<int>(); // 생성 큐브들의 PhotonViewID
+    public List<int> SpawnedObjectIDs => spawnedObjectIDs;
     public SplineContainer splineContainer; // 스플라인 연결용
 
     public Transform spawnRootObject; // 생성할 루트 오브젝트(선택 큐브의 부모)
@@ -54,12 +52,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         splineExtrude = GetComponent<SplineExtrude>();
     }
 
-    public void OnPointerClicked(MixedRealityPointerEventData eventData) { }
-    public void OnPointerDragged(MixedRealityPointerEventData eventData) { }
-    public void OnPointerUp(MixedRealityPointerEventData eventData) { }
-
-    // 에어탭 했을 때 (왼손: 원하는 곳에 선택 큐브 스폰)
-    public void OnPointerDown(MixedRealityPointerEventData eventData)
+    public void OnPointerClicked(MixedRealityPointerEventData eventData)
     {
         // 트랙 완성 후에는 입력 차단
         if (trackFinalized) return;
@@ -85,37 +78,20 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
             // Frozen 공간으로 변환
             Vector3 frozenPosition = frozenFromLockedMatrix.MultiplyPoint3x4(lockedPosition);
 
-            // [1인 테스트] 턴 규칙 무시하고 바로 스폰
-            if (singlePlayerMode)
+            if (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
             {
                 GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
                 cube.transform.parent = spawnRootObject;
                 photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
-                return;
             }
-
-            // ---------------------- [원래 코드] 멀티 교대 규칙 ----------------------
-            // if (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
-            // {
-            //     GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
-            //     cube.transform.parent = spawnRootObject;
-            //     photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
-            // }
-            // else return;
-            // ---------------------------------------------------------------------
-
-            // 1인 모드가 아닌 경우 기존 교대 규칙 적용
-            bool myTurn =
-                (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient) ||
-                (spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient);
-
-            if (!myTurn) return;
-
-            GameObject go = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, lockedRotation);
-            go.transform.parent = spawnRootObject;
-            photonView.RPC("SpawnObject", RpcTarget.AllBuffered, go.GetComponent<PhotonView>().ViewID);
+            else return;
         }
     }
+    public void OnPointerDragged(MixedRealityPointerEventData eventData) { }
+    public void OnPointerUp(MixedRealityPointerEventData eventData) { }
+
+    // 에어탭 했을 때 (왼손: 원하는 곳에 선택 큐브 스폰)
+    public void OnPointerDown(MixedRealityPointerEventData eventData) { }
 
     // 물체 생성 및 저장
     [PunRPC]
@@ -387,22 +363,13 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         // 트랙 완성 후에는 입력 차단
         if (trackFinalized) return;
 
-        // [1인 테스트] 항상 생성 허용
-        bool respectTurnRule = singlePlayerMode;
-
-        // ---------------------- [원래 코드] 멀티 교대 규칙 ----------------------
-        // bool respectTurnRule =
-        //     (spawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient) ||
-        //     (spawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient);
-        // ---------------------------------------------------------------------
-
-        if (!respectTurnRule) return;
-
         GameObject cube = PhotonNetwork.Instantiate(cubePrefab.name, frozenPosition, frozenRotation);
         cube.transform.parent = spawnRootObject;
 
         // 기존 로직 연결 (스플라인 생성, 차량/아이템 스폰)
         photonView.RPC("SpawnObject", RpcTarget.AllBuffered, cube.GetComponent<PhotonView>().ViewID);
+        
+        cube.SetActive(false); // 스플라인 지점 등록 후 물체 비활성화 -> 중복으로 물체 보이는 문제 해결
     }
 
     // 마스터가 전 클라이언트에 대해 스폰된 선택 큐브를 일괄 파괴

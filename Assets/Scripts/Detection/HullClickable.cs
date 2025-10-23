@@ -1,16 +1,16 @@
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
-using Photon.Pun; // PhotonView Á¦°Å¿ë
+using Photon.Pun;
 
-public class HullClickable : MonoBehaviour, IMixedRealityPointerHandler
+public class HullClickable : MonoBehaviourPun, IMixedRealityPointerHandler
 {
     private bool toggled = false;
     private GameObject markerCube;
 
-    public SpawnManager spawnManager;                // SpawnManager ÂüÁ¶ (ÀÎ½ºÆåÅÍ/·±Å¸ÀÓ ÁÖÀÔ)
-    public bool useWorldLocking = false;             // WLT ¾²¸é true
-    public Matrix4x4 frozenFromLocked = Matrix4x4.identity; // Àá±è¡æµ¿°á º¯È¯ Çà·Ä
+    public SpawnManager spawnManager;
+    public bool useWorldLocking = false;
+    public Matrix4x4 frozenFromLocked = Matrix4x4.identity;
 
     private void Awake()
     {
@@ -20,74 +20,49 @@ public class HullClickable : MonoBehaviour, IMixedRealityPointerHandler
 
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
     {
-        // ¿À¸¥¼Õ¸¸ Çã¿ë (¿ø·¡ ÄÚµå´Â ¼Õ ±¸ºĞ ¾øÀ½)
-        if (!eventData.Handedness.IsRight())
+        if (eventData.Handedness.IsLeft())
         {
             eventData.Use();
             return;
         }
 
-        Debug.Log("[Hull] ¿µ¿ª Å¬¸¯µÊ");
-
-        var rend = GetComponent<MeshRenderer>();
-        if (rend != null)
+        if (spawnManager.SpawnedObjectIDs.Count % 2 == 0 && PhotonNetwork.IsMasterClient || spawnManager.SpawnedObjectIDs.Count % 2 == 1 && !PhotonNetwork.IsMasterClient)
         {
-            Bounds b = rend.bounds;
-
-            if (markerCube == null)
+            var rend = GetComponent<MeshRenderer>();
+            if (rend != null)
             {
-                // ----------------------- [¿ø·¡ ÄÚµå]
-                // markerCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                // markerCube.name = "HullMarkerCube";
-                // Destroy(markerCube.GetComponent<Collider>());
-                // -----------------------
+                Bounds b = rend.bounds;
 
-                // ----------------------- [»õ ÄÚµå] ¿Ş¼Õ°ú °°Àº ÇÁ¸®ÆÕÀ¸·Î ¹Ì¸®º¸±â »ı¼º
-                if (spawnManager != null && spawnManager.cubePrefab != null)
+                if (markerCube == null)
                 {
-                    markerCube = Instantiate(spawnManager.cubePrefab);
-                    markerCube.name = "HullMarkerCube"; // Á¤¸® ·çÆ¾°ú È£È¯µÇµµ·Ï µ¿ÀÏ ¸í¸í
+                    if (spawnManager != null && spawnManager.cubePrefab != null)
+                    {
+                        // ë„¤íŠ¸ì›Œí¬ ì˜¤ë¸Œì íŠ¸ëŠ” ìƒì„± ì‹œì ì— ì •í™•í•œ ìœ„ì¹˜/íšŒì „ì„ ì§€ì •í•´ì•¼ í´ë¼ì´ì–¸íŠ¸ ê°„ì— ë™ê¸°í™”ë©ë‹ˆë‹¤.
+                        markerCube = PhotonNetwork.Instantiate(spawnManager.cubePrefab.name, b.center, Quaternion.identity);
+                        markerCube.name = "HullMarkerCube";
+                    }
+                    else
+                    {
+                        // SpawnManager ë˜ëŠ” cubePrefabì´ í• ë‹¹ë˜ì§€ ì•Šì€ ê²½ìš°, ì˜¤ë¥˜ë¥¼ ê¸°ë¡í•˜ê³  ì‹¤í–‰ì„ ì¤‘ë‹¨í•©ë‹ˆë‹¤.
+                        Debug.LogError("SpawnManager or cubePrefab is not assigned. Cannot create marker cube.");
+                        return;
+                    }
+                }
 
-                    // ³×Æ®¿öÅ©/¹°¸® ÄÄÆ÷³ÍÆ® Á¦°Å (·ÎÄÃ ¹Ì¸®º¸±â ¿ÀºêÁ§Æ®·Î¸¸ »ç¿ë)
-                    var pv = markerCube.GetComponent<PhotonView>();
-                    if (pv) Destroy(pv);
-                    var rb = markerCube.GetComponent<Rigidbody>();
-                    if (rb) Destroy(rb);
-                    foreach (var col in markerCube.GetComponentsInChildren<Collider>(true))
-                        Destroy(col);
-                }
-                else
-                {
-                    // ¾ÈÀü¸Á: ÇÁ¸®ÆÕ ¾øÀ¸¸é ±âº» Å¥ºê
-                    markerCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    markerCube.name = "HullMarkerCube";
-                    var c = markerCube.GetComponent<Collider>();
-                    if (c) Destroy(c);
-                }
-                // -----------------------
+                // ìŠ¤ì¼€ì¼ì€ ê³µí†µì ìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
+                markerCube.transform.localScale = b.size;
+
+                Vector3 pos = b.center;
+                Quaternion rot = Quaternion.identity;
+                if (useWorldLocking)
+                    pos = frozenFromLocked.MultiplyPoint3x4(pos);
+
+                if (spawnManager != null)
+                    spawnManager.AddPointFromPlaneDetector(pos, rot);
+
+                toggled = !toggled;
+
             }
-
-            // À§Ä¡/Å©±â ¸ÂÃß±â (Bounds¿¡ µü ¸Â°Ô)
-            markerCube.transform.position = b.center;
-            markerCube.transform.rotation = Quaternion.identity;
-            markerCube.transform.localScale = b.size;
-
-            // ÁÂÇ¥°è º¯È¯ (WLT »ç¿ë ½Ã)
-            Vector3 pos = b.center;
-            Quaternion rot = Quaternion.identity;
-            if (useWorldLocking)
-                pos = frozenFromLocked.MultiplyPoint3x4(pos);
-
-            // ³×Æ®¿öÅ© Å¥ºê ½ÇÁ¦ »ı¼º (¿Ş¼Õ°ú µ¿ÀÏ °æ·Î)
-            if (spawnManager != null)
-                spawnManager.AddPointFromPlaneDetector(pos, rot);
-            else
-                Debug.LogWarning("[HullClickable] spawnManager°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
-
-            // [¿ø·¡ ÄÚµå] Åõ¸í Åä±Û ¸ÓÆ¼¸®¾óÀº Á¦°Å ¡æ ÇÁ¸®ÆÕ ½Ã°¢ ±×´ë·Î »ç¿ë
-            // (ÇÁ¸®ÆÕ°ú µ¿ÀÏ ·»´õ¸µÀ» ¿øÇÏ¹Ç·Î ´õ ÀÌ»ó »ö»ó Åä±Û/Åõ¸í Ã³¸® ¾ÈÇÔ)
-
-            toggled = !toggled;
         }
 
         eventData.Use();

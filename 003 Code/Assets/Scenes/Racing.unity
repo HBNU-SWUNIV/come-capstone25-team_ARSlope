@@ -186,6 +186,53 @@ MonoBehaviour:
   sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &49691416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 49691418}
+  - component: {fileID: 49691417}
+  m_Layer: 0
+  m_Name: AR Session
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &49691417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49691416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3859a92a05d4f5d418cb6ca605290e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AttemptUpdate: 1
+  m_MatchFrameRate: 1
+  m_TrackingMode: 2
+--- !u!4 &49691418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49691416}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &163221822
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,12 +393,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
+      propertyPath: shared.anchorSettings.ARSessionSource
+      value: 
+      objectReference: {fileID: 49691416}
+    - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
       propertyPath: shared.anchorSettings.MaxLocalAnchors
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
       propertyPath: shared.anchorSettings.anchorSubsystem
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
       propertyPath: shared.linkageSettings.AdjustmentFrame
@@ -362,8 +413,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
+      propertyPath: shared.anchorSettings.ARSessionOriginSource
+      value: 
+      objectReference: {fileID: 1050575108}
+    - target: {fileID: 114794997547214612, guid: f0777d53f35d4cb42827b5c3bdf227bd, type: 3}
       propertyPath: shared.anchorSettings.NullSubsystemInEditor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1386,6 +1441,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1050575109}
+  - component: {fileID: 1050575110}
   m_Layer: 0
   m_Name: MixedRealityPlayspace
   m_TagString: Untagged
@@ -1409,6 +1465,23 @@ Transform:
   - {fileID: 1052870417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1050575110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050575108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520bb47c46cf8624fafb307b7d1b862a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 1052870422}
+  m_OriginBaseGameObject: {fileID: 1050575108}
+  m_CameraFloorOffsetObject: {fileID: 0}
+  m_RequestedTrackingOriginMode: 0
+  m_CameraYOffset: 1.1176
 --- !u!1 &1052870416
 GameObject:
   m_ObjectHideFlags: 0
@@ -2456,6 +2529,7 @@ SceneRoots:
   - {fileID: 315572857}
   - {fileID: 1064239725}
   - {fileID: 1050575109}
+  - {fileID: 49691418}
   - {fileID: 498164092}
   - {fileID: 571869804}
   - {fileID: 1563328965}

@@ -1,8 +1,10 @@
-﻿using Microsoft.MixedReality.Toolkit;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using Microsoft.MixedReality.Toolkit;
+using Microsoft.MixedReality.WorldLocking.Core;
 using Photon.Pun;
 using Photon.Realtime; // DisconnectCause를 사용하기 위해 추가
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneNavigator : MonoBehaviourPunCallbacks
 {
@@ -20,7 +22,7 @@ public class SceneNavigator : MonoBehaviourPunCallbacks
     {
         SceneManager.LoadScene("Title");
     }
-    
+
     public void LoadRacingScene()
     {
         SceneManager.LoadScene("Racing");
@@ -29,10 +31,25 @@ public class SceneNavigator : MonoBehaviourPunCallbacks
     // 포톤 연결을 끊고 타이틀 씬으로 돌아가는 함수
     public void ResetAndLoadTitleScene()
     {
-        // "완전 초기화"를 위해 추가적인 리셋 코드가 필요할 수 있습니다.
-        // 예를 들어, 싱글톤으로 관리되는 게임 데이터나 매니저가 있다면 여기서 리셋해야 합니다.
-        // 예: GameManager.Instance.ResetGameData();
+        // GetInstance()로 싱글톤 인스턴스를 가져온 뒤 Reset() 메서드를 호출합니다.
+        try
+        {
+            WorldLockingManager.GetInstance().Reset();
+            Debug.Log("World Locking Tools 상태를 리셋했습니다.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"WorldLockingManager.GetInstance().Reset() 호출 중 예외 발생: {e.Message}");
+        }
 
+        // MRTK 공간 인식 시스템도 리셋
+        if (CoreServices.SpatialAwarenessSystem != null)
+        {
+            CoreServices.SpatialAwarenessSystem.Disable();
+            CoreServices.SpatialAwarenessSystem.Reset();
+        }
+
+        // (이하 기존 코드)
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.Disconnect();
@@ -40,14 +57,34 @@ public class SceneNavigator : MonoBehaviourPunCallbacks
         else
         {
             // 이미 연결이 끊겨있다면 바로 타이틀 씬 로드
-            LoadTitleScene();
+            StartCoroutine(LoadTitleSceneRoutine());
         }
     }
 
     // 포톤 서버와의 연결이 끊어졌을 때 호출되는 콜백 함수
     public override void OnDisconnected(DisconnectCause cause)
     {
+        // GetInstance()로 싱글톤 인스턴스를 가져온 뒤 Reset() 메서드를 호출합니다.
+        try
+        {
+            WorldLockingManager.GetInstance().Reset();
+            Debug.Log("World Locking Tools 상태를 리셋했습니다.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"WorldLockingManager.GetInstance().Reset() 호출 중 예외 발생: {e.Message}");
+        }
+
         // 연결이 끊어졌으므로 타이틀 씬을 로드합니다.
+        StartCoroutine(LoadTitleSceneRoutine());
+    }
+    
+    private IEnumerator LoadTitleSceneRoutine()
+    {
+        // 현재 프레임의 모든 OnDisable, 이벤트 처리가 완료될 때까지 대기
+        yield return new WaitForEndOfFrame();
+
+        // 다음 프레임에 안전하게 씬 로드
         LoadTitleScene();
     }
 }

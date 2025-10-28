@@ -16,10 +16,14 @@ public class UIManager : MonoBehaviourPun
     public GameObject clientWatingUI; // 마스터가 오브젝트 개수 선택 전까지 클라이언트 대기 UI
     public GameObject gameoverUI; // 게임오버 UI
     public MeshRenderer gameResult;
+    public GameObject popupUI;
+    public MeshRenderer popupMesh;
     public TablePlaneDetector planeDetector;
 
     public List<Material> resultMaterials;
-    
+    public Material howToPlayMaterial;
+    public Material manualMaterial;
+
     public SplineContainer splineContainer;
 
     public int maxSpawnObjectCount { get; private set; } // 최대 물체 선택 개수
@@ -100,7 +104,7 @@ public class UIManager : MonoBehaviourPun
 
         Vector3 centerPos = GetSplineCenter(splineContainer.Spline, splineContainer.transform);
         centerPos += Vector3.up * 0.2f;
-        
+
         gameoverUI.transform.position = centerPos;
     }
     Vector3 GetSplineCenter(Spline spline, Transform splineTransform, int samples = 200)
@@ -115,5 +119,16 @@ public class UIManager : MonoBehaviourPun
 
         Vector3 localCenter = sum / samples;
         return splineTransform.TransformPoint(localCenter);
+    }
+
+    public void OpenPopup(Material image)
+    {
+        popupUI.SetActive(true);
+        popupMesh.material = image;
+    }
+
+    public void ClosePopup()
+    {
+        popupUI.SetActive(false);
     }
 }

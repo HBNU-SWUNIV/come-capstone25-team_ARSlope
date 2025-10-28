@@ -1,9 +1,9 @@
-# 한밭대학교 OOOO학과 ㅁㅁㅁㅁ팀
+# 한밭대학교 컴퓨터공학과 예용팀
 
 **팀 구성**
-- 20XX0001 김이박 
-- 20XX0002 이박김
-- 20XX0003 박김이
+- 20221122 최혜진
+- 20221996 신예솔
+- 20222044 정진용
 
 ## <u>Teamate</u> Project Background
 - ### 필요성
@@ -15,8 +15,7 @@
   
 ## System Design
   - ### System Requirements
-    - OOO
-    - OOO
+    - MicroSoft HoloLens 2
     
 ## Case Study
   - ### Description

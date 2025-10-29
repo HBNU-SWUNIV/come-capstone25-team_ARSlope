@@ -13956,6 +13956,7 @@ MonoBehaviour:
   respawnCooldown: 2
   progress: 0
   goalLaps: 2
+  finished: 0
 --- !u!114 &-5771284048525111077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14049,8 +14050,6 @@ MonoBehaviour:
   bombThrowForce: 30
   bombExplosionRadius: 3
   hookPullSpeed: 10
-  explosionEffectPrefab: {fileID: 0}
-  explosionSound: {fileID: 0}
 --- !u!1 &1874366444790696
 GameObject:
   m_ObjectHideFlags: 0

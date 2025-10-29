@@ -339,7 +339,7 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
             PhotonView pullerView = PhotonView.Find(pullerID);
             if (pullerView != null)
             {
-                Debug.Log($"[{photonView.Owner.NickName}] {pullerView.Owner.NickName}의 갈고리에 맞았습니다!");
+                Debug.Log($"[{photonView.Owner.ActorNumber}] {pullerView.Owner.ActorNumber}의 갈고리에 맞았습니다!");
                 StartCoroutine(PullMyselfTo(pullerView.gameObject));
             }
         }
@@ -361,7 +361,7 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
         Vector3 startPos = transform.position;
 
         Debug.Log($"🪝 {puller.name}에게 끌려가기 시작");
-
+        rb.isKinematic = true;
         while (elapsed < duration && puller != null)
         {
             // 목표 위치: 끌어당기는 차의 바로 뒤쪽
@@ -393,6 +393,7 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
         rb.angularVelocity = Vector3.zero;
 
         Debug.Log($"🪝 끌려가기 완료!");
+        rb.isKinematic = false;
     }
 
 

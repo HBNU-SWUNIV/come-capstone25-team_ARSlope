@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spline
   - Item
+  - Obstacle
   layers:
   - Default
   - TransparentFX

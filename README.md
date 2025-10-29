@@ -1,4 +1,4 @@
-# AR Slope – HoloLens 기반 증강현실 레이싱 게임
+# AR(Augmented Reality) Slope – HoloLens 기반 증강현실 레이싱 게임
 한밭대학교 컴퓨터공학과 **예용팀**  
 > 현실 물체를 인식하여 트랙을 자동으로 생성하고, 실제 공간에서 주행 가능한 증강현실(AR) 레이싱 게임입니다.
 

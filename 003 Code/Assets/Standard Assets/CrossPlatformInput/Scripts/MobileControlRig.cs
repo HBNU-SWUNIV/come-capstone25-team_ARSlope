@@ -86,6 +86,11 @@ namespace UnityStandardAssets.CrossPlatformInput
 
         private void EnableControlRig(bool enabled)
         {
+            if (this.transform == null)
+            {
+                return;
+            }
+
             foreach (Transform t in transform)
             {
                 t.gameObject.SetActive(enabled);
@@ -95,6 +100,10 @@ namespace UnityStandardAssets.CrossPlatformInput
 #if UNITY_EDITOR
         public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
         {
+            if (this == null)
+            {
+                return;
+            }
             CheckEnableControlRig();
         }
 #endif

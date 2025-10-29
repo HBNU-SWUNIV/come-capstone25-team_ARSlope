@@ -1200,7 +1200,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582734151}
-  m_Mesh: {fileID: 4300000, guid: 50f529941cdffc440b2821e9249dc589, type: 2}
+  m_Mesh: {fileID: 0}
 --- !u!54 &582734159
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2518,7 +2518,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoToTitle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8927709777571842840, guid: 9a7c24f281a2c3d45a9b8befe608bf77, type: 3}
+    - {fileID: 2110343545006650770, guid: 9a7c24f281a2c3d45a9b8befe608bf77, type: 3}
+    - {fileID: 765132142816463201, guid: 9a7c24f281a2c3d45a9b8befe608bf77, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

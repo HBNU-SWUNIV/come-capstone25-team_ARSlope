@@ -7,8 +7,8 @@ using Photon.Pun;
 public class ItemSpawner : MonoBehaviourPun
 {
     public SplineContainer splineContainer;
-    public GameObject itemPrefab;
     public SplineExtrude splineExtrude;
+    public GameObject itemPrefab;
     public int spawnCount = 8; // 슬라이스 개수 (아이템 배치 지점 수)
 
     public void SpawnItemsWithDelay()
@@ -30,6 +30,8 @@ public class ItemSpawner : MonoBehaviourPun
 
         // 도로 폭 기준 간격 계산
         float roadWidth = splineExtrude.Radius;
+        float baseWidth = 3f * 2f;
+        float scaleFactor = roadWidth / baseWidth;
         float spacing = roadWidth / 7f; // 7등분
 
         for (int i = 1; i < spawnCount; i++)
@@ -57,6 +59,8 @@ public class ItemSpawner : MonoBehaviourPun
                 GameObject obj = PhotonNetwork.Instantiate(itemPrefab.name, spawnPos, Quaternion.identity);
                 Debug.Log($"아이템 생성 위치: {spawnPos:F2} (7등분 중 {posIndex + 1}번째 지점)");
 
+                obj.transform.parent = this.transform;
+                obj.transform.localScale = Vector3.one * scaleFactor;
                 //Debug.DrawRay(spawnPos, Vector3.up * 1f, Color.yellow, 5f);
             }
         }

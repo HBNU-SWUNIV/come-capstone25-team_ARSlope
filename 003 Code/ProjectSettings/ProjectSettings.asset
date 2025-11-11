@@ -872,14 +872,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: HoloLens2Test
+  metroPackageName: ARSlopeRace
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
   metroCertificateNotAfter: 004571c9f09cdc01
-  metroApplicationDescription: HoloLens2_Test
+  metroApplicationDescription: 2025Capstone_ARSlopeRace
   wsaImages: {}
   metroTileShortName: HoloLens2_Test
   metroTileShowName: 0

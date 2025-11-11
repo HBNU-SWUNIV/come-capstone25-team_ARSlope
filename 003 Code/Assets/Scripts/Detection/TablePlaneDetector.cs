@@ -1,19 +1,19 @@
 // TablePlaneDetector.cs
 // ------------------------------------------------------------
-// ¿äÃ»: "¹°Ã¼ ÀÎ½ÄµÈ ¸Ş½¬(ÃÊ·Ï»ö Hull)¸¸ º¸ÀÌ°í, ´Ù¸¥ Ç¥½Ã´Â º¸ÀÌÁö ¾Ê°Ô"
-//      + "Æ®·¢ »ı¼º ÈÄ¿¡´Â ÃÊ·Ï»ö Hullµµ »ç¶óÁö°Ô" (Å¥ºê Á¦°Å´Â SpawnManager¿¡¼­ Ã³¸®)
-// ±¸¼º:
-//  1) [»õ ÄÚµå] showOnlyHulls=true ÀÏ ¶§, Æò¸é À±°û¼±/»ùÇÃ Á¡À» »ı¼ºÇÏÁö ¾ÊÀ½
-//  2) [»õ ÄÚµå] Hull ¿ÀºêÁ§Æ®¸¦ º°µµ ¸®½ºÆ®(_spawnedHulls)¿¡ ÃßÀûÇÏ°í
-//               ClearHulls()·Î ÀÏ°ı Á¦°Å °¡´É
-//  3) [¿ø·¡ ÄÚµå] StartDetection() Áï½Ã ½ÇÇà ¹öÀüÀº º¸Á¸(ÁÖ¼®)
-//  4) [»õ ÄÚµå] StartDetection()Àº "¸Ş½¬ ÁØºñ ´ë±â ¡æ °ËÃâ ½ÇÇà" ÄÚ·çÆ¾
-//  5) [»õ ÄÚµå] ClearDetectedVisuals(): ¸ğµç Ç¥½Ã¹°(¶óÀÎ/Á¡/Çæ) »èÁ¦
-//     + ClearHulls(): Çæ¸¸ »èÁ¦
+// ìš”êµ¬: "ê°ì²´ íƒì§€ëœ ë©”ì‹œ(ì»¨ë²¡ìŠ¤ Hull)ë§Œ í‘œì‹œí•˜ê³ , ë‹¤ë¥¸ í‘œì‹œë˜ëŠ” ê²ƒë“¤ ìˆ¨ê¸°ê¸°"
+//      + "íŠ¸ë¦¬ê±° ì™„ë£Œ ì´í›„ì— ì»¨ë²¡ìŠ¤ Hullì„ í´ë¦­ê°€ëŠ¥í•˜ê²Œ" (í´ë¦­ì€ SpawnManagerì—ì„œ ì²˜ë¦¬)
+// ì„¤ëª…:
+//  1) [ìƒˆ ì½”ë“œ] showOnlyHulls=true ì¼ ë•Œ, ëª¨ë“  ì‹œê°í™”/ë¼ì¸ í‘œì‹œ ê¸°ëŠ¥ ë¹„í™œì„±í™”
+//  2) [ìƒˆ ì½”ë“œ] Hull ê²Œì„ì˜¤ë¸Œì íŠ¸ë¥¼ ë³„ë„ ë¦¬ìŠ¤íŠ¸(_spawnedHulls)ë¡œ ê´€ë¦¬í•˜ê³ 
+//               ClearHulls()ë¡œ ë”°ë¡œ ì‚­ì œ ê°€ëŠ¥
+//  3) [ê¸°ì¡´ ì½”ë“œ] StartDetection() í˜¸ì¶œ ì‹œ ì¦‰ì‹œ ì‹¤í–‰ (ìµœì†Œ)
+//  4) [ìƒˆ ì½”ë“œ] StartDetection()ì— "ë©”ì‹œ ë¡œë“œ ì™„ë£Œ ëŒ€ê¸° í›„ ì‹¤í–‰" ì½”ë£¨í‹´
+//  5) [ìƒˆ ì½”ë“œ] ClearDetectedVisuals(): ëª¨ë“  í‘œì‹œë¬¼(ë¼ì¸/ì /í—) ì‚­ì œ
+//     + ClearHulls(): í—ë§Œ ì‚­ì œ
 // ------------------------------------------------------------
 
 using UnityEngine;
-using System.Collections; // ÄÚ·çÆ¾
+using System.Collections; // ì½”ë£¨í‹´
 using System.Collections.Generic;
 using Microsoft.MixedReality.Toolkit;
 using Microsoft.MixedReality.Toolkit.SpatialAwareness;
@@ -21,9 +21,9 @@ using Microsoft.MixedReality.Toolkit.SpatialAwareness.Processing;
 
 public class TablePlaneDetector : MonoBehaviour
 {
-    public SpawnManager spawnManager;                 // ÀÎ½ºÆåÅÍ¿¡¼­ ¿¬°á
-    public bool useWorldLocking = false;              // WLT ¾²¸é true
-    public Matrix4x4 frozenFromLocked = Matrix4x4.identity; // Àá±è¡æµ¿°á º¯È¯ Çà·Ä
+    public SpawnManager spawnManager;                 // íƒì§€ëœê°ì²´ë¥¼ ìŠ¤í°í•˜ê¸°ìœ„í•œ ì°¸ì¡°
+    public bool useWorldLocking = false;              // WLT ì‚¬ìš©ì‹œ true
+    public Matrix4x4 frozenFromLocked = Matrix4x4.identity; // ì›”ë“œë½ ì¢Œí‘œ ë³€í™˜ í–‰ë ¬
 
     [Header("PlaneFinding")]
     public float snapToGravityThreshold = 5f;
@@ -33,7 +33,7 @@ public class TablePlaneDetector : MonoBehaviour
     public float objectBandMin = 0.02f;
     public float objectBandMax = 0.18f;
 
-    [Header("Grouping (¿©·¯ ¹°Ã¼·Î ºĞ¸®)")]
+    [Header("Grouping (ê°ì²´ ê·¸ë£¹ì„ ë¶„ë¦¬)")]
     public bool enableGrouping = true;
     public float groupRadius = 0.08f;
     public int minGroupPoints = 5;
@@ -54,8 +54,8 @@ public class TablePlaneDetector : MonoBehaviour
     public Color hullColor = Color.green;
 
     [Header("Debug / Visuals")]
-    public bool debugShowPlaneOutline = true;     // [¿ø·¡ ±âº» Ç¥½Ã] ³ë¶õ °æ°è¼±
-    public bool debugShowSamples = true;          // [¿ø·¡ ±âº» Ç¥½Ã] ÆÄ¶õ Á¡
+    public bool debugShowPlaneOutline = true;     // [ê¸°ë³¸ í‘œì‹œ] í‰ë©´ ìœ¤ê³½
+    public bool debugShowSamples = true;          // [ê¸°ë³¸ í‘œì‹œ] ìƒ˜í”Œ ì 
     public float sampleSize = 0.02f;
     public Transform debugParent;
 
@@ -67,37 +67,37 @@ public class TablePlaneDetector : MonoBehaviour
     public float floorBelowCamera = 0.60f;
 
     [Header("New Visibility Control")]
-    public bool showOnlyHulls = true;             // [»õ ÄÚµå] true¸é Hull¸¸ º¸ÀÌ°Ô (¶óÀÎ/Á¡ »ı¼º ¾ïÁ¦)
+    public bool showOnlyHulls = true;             // [ìƒˆ ì½”ë“œ] trueì¼ ë•Œ Hullë§Œ í‘œì‹œ (ë¼ì¸/ì  í‘œì‹œ ì•ˆí•¨)
 
     private bool hasRun = false;
 
-    // [»õ ÄÚµå] »ı¼ºµÈ Ç¥½Ã¹°/Çæ ÃßÀû
-    private readonly List<GameObject> _spawnedVisuals = new List<GameObject>(); // ¶óÀÎ/Á¡/Çæ Æ÷ÇÔ(Á¤¸®¿ë)
-    private readonly List<GameObject> _spawnedHulls = new List<GameObject>(); // Çæ¸¸(¼±º° »èÁ¦¿ë)
+    // [ìƒˆ ì½”ë“œ] ìƒì„±ëœ í‘œì‹œë¬¼/í— ê´€ë¦¬
+    private readonly List<GameObject> _spawnedVisuals = new List<GameObject>(); // ë¼ì¸/ì /í— ìƒì„±(ì‹œê°í™”)
+    private readonly List<GameObject> _spawnedHulls = new List<GameObject>(); // í—(í´ë¦­ ê°€ëŠ¥)
 
     // ------------------------------------------------------------------------
-    // [¿ø·¡ ÄÚµå - º¸Á¸]
+    // [ê¸°ì¡´ ì½”ë“œ - ì£¼ì„]
     // public void StartDetection()
     // {
-    //     Debug.Log("[PlaneDetector] Æò¸é ÀÎ½Ä ½ÃÀÛ ¿äÃ»µÊ");
+    //     Debug.Log("[PlaneDetector] í‰ë©´ íƒì§€ ì‹œì‘ ìš”ì²­ë¨");
     //     RunPlaneDetection();
     // }
     // ------------------------------------------------------------------------
 
     // ------------------------------------------------------------------------
-    // [»õ ÄÚµå] ¸Ş½¬°¡ ÁØºñµÉ ¶§±îÁö Àá±ñ ´ë±âÇÑ ´ÙÀ½ Æò¸é ÀÎ½Ä ½ÃÀÛ
+    // [ìƒˆ ì½”ë“œ] ë©”ì‹œê°€ ë¡œë“œë  ë•Œê¹Œì§€ ëŒ€ê¸° í›„ ì‹¤í–‰í•˜ëŠ” í‰ë©´ íƒì§€
     // ------------------------------------------------------------------------
     public void StartDetection()
     {
-        hasRun = false;               // Àç½ÃÀÛ °¡´ÉÇÏµµ·Ï ¸®¼Â
-        StopAllCoroutines();          // Áßº¹ ½ÇÇà ¹æÁö
+        hasRun = false;               // ì¬ì‹¤í–‰ ê°€ëŠ¥í•˜ë„ë¡ ë¦¬ì…‹
+        StopAllCoroutines();          // ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
         StartCoroutine(DetectWhenMeshesReady());
     }
 
     private IEnumerator DetectWhenMeshesReady()
     {
-        Debug.Log("[PlaneDetector] ´ë±â: °ø°£ ¸Ş½¬ ÁØºñ Áß...");
-        const float timeout = 8f;     // ÇÊ¿ä ½Ã Á¶Á¤
+        Debug.Log("[PlaneDetector] ëŒ€ê¸°: ê³µê°„ ë©”ì‹œ ë¡œë“œ ì¤‘...");
+        const float timeout = 8f;     // í•„ìš” ì‹œ íƒ€ì„ì•„ì›ƒ
         const float poll = 0.25f;
         float t = 0f;
 
@@ -113,8 +113,8 @@ public class TablePlaneDetector : MonoBehaviour
                     foreach (var obs in observers) meshCount += obs.Meshes?.Count ?? 0;
                     if (meshCount > 0)
                     {
-                        if (debugVerboseLog) Debug.Log($"[PlaneDetector] ÁØºñµÈ ¸Ş½¬ ¼ö: {meshCount}");
-                        break; // ÃæºĞ
+                        if (debugVerboseLog) Debug.Log($"[PlaneDetector] ë¡œë“œëœ ë©”ì‹œ ìˆ˜: {meshCount}");
+                        break; // ì¢…ë£Œ
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class TablePlaneDetector : MonoBehaviour
             t += poll;
         }
 
-        Debug.Log("[PlaneDetector] Æò¸é ÀÎ½Ä ½ÃÀÛ ¿äÃ»µÊ");
+        Debug.Log("[PlaneDetector] í‰ë©´ íƒì§€ ì‹œì‘ ìš”ì²­ë¨");
         RunPlaneDetection();
     }
     // ------------------------------------------------------------------------
@@ -167,15 +167,15 @@ public class TablePlaneDetector : MonoBehaviour
             float extZ = bounds.Extents.y;
             Vector3 normal = plane.Plane.normal;
 
-            // Å×ÀÌºí·ù(¼öÆò), ÃµÀå/¹Ù´Ú Á¦¿Ü
+            // í…Œì´ë¸”ë©´(ìˆ˜í‰), ì²œì¥/ë°”ë‹¥ ì œì™¸
             if (Mathf.Abs(normal.y) <= 0.75f) continue;
             if (center.y > camY + ceilingAboveCamera) continue;
             if (center.y < camY - floorBelowCamera) continue;
 
             bool facingUp = Vector3.Dot(normal, Vector3.up) >= 0f;
 
-            // [»õ ÄÚµå] Hull¸¸ º¸ÀÌ°Ô: Æò¸é °æ°è¼±/»ùÇÃ Á¡ »ı¼º ¾ïÁ¦
-            // [¿ø·¡ ÄÚµå]
+            // [ìƒˆ ì½”ë“œ] Hullë§Œ í‘œì‹œ: ëª¨ë“  ìœ¤ê³½/ë¼ì¸ í‘œì‹œ ì•ˆí•¨
+            // [ê¸°ì¡´ ì½”ë“œ]
             // if (debugShowPlaneOutline) DrawPlaneOutline(center, extX, extZ, 0.95f);
             if (!showOnlyHulls && debugShowPlaneOutline)
                 DrawPlaneOutline(center, extX, extZ, 0.95f);
@@ -186,7 +186,7 @@ public class TablePlaneDetector : MonoBehaviour
             if (debugVerboseLog) Debug.Log($"[Markers] OnTop points: {onTopPointsWorld.Count}");
             if (onTopPointsWorld.Count == 0) continue;
 
-            // [¿ø·¡ ÄÚµå]
+            // [ê¸°ì¡´ ì½”ë“œ]
             // if (debugShowSamples) { foreach (var pt in onTopPointsWorld) SpawnDot(pt, sampleSize, new Color(0.2f, 1f, 1f), rot, 0.01f); }
             if (!showOnlyHulls && debugShowSamples)
             {
@@ -196,7 +196,7 @@ public class TablePlaneDetector : MonoBehaviour
 
             if (enableGrouping)
             {
-                // ±×·ìÇÎ ÈÄ ±×·ìº°·Î ÀÔÃ¼ Hull »ı¼º
+                // ê·¸ë£¹ë³„ë¡œ ê° ê·¸ë£¹ë§ˆë‹¤ ê°ì²´ Hull ìƒì„±
                 DrawHullGroups(onTopPointsWorld, rot, groupRadius, minGroupPoints);
             }
             else
@@ -207,7 +207,7 @@ public class TablePlaneDetector : MonoBehaviour
         }
     }
 
-    // ---------- ÇïÆÛ ----------
+    // ---------- ìœ í‹¸ë¦¬í‹° ----------
 
     private static List<Vector3> CollectPointsAbovePlaneInsideOBB(
         IReadOnlyList<IMixedRealitySpatialAwarenessMeshObserver> observers,
@@ -253,7 +253,7 @@ public class TablePlaneDetector : MonoBehaviour
     private void DrawPlaneOutline(Vector3 center, float extX, float extZ, float scale)
     {
         GameObject lineObj = new GameObject($"Plane_Line_{center.y:F2}");
-        _spawnedVisuals.Add(lineObj); // [»õ ÄÚµå] Á¤¸® ¸®½ºÆ®¿¡ µî·Ï
+        _spawnedVisuals.Add(lineObj); // [ìƒˆ ì½”ë“œ] ì‹œê°í™” ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
 
         var lr = lineObj.AddComponent<LineRenderer>();
         lr.useWorldSpace = true;
@@ -279,7 +279,7 @@ public class TablePlaneDetector : MonoBehaviour
     private void SpawnDot(Vector3 pos, float size, Color color, Quaternion planeRot, float lift)
     {
         var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        _spawnedVisuals.Add(go); // [»õ ÄÚµå] Á¤¸® ¸®½ºÆ®¿¡ µî·Ï
+        _spawnedVisuals.Add(go); // [ìƒˆ ì½”ë“œ] ì‹œê°í™” ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
 
         if (debugParent) go.transform.SetParent(debugParent, true);
         go.transform.position = pos + (planeRot * Vector3.up) * Mathf.Max(0f, lift);
@@ -290,7 +290,7 @@ public class TablePlaneDetector : MonoBehaviour
         Destroy(go.GetComponent<Collider>());
     }
 
-    // ±×·ìº° Hull MeshCollider »ı¼º
+    // ê·¸ë£¹ë³„ Hull MeshCollider ìƒì„±
     private void DrawHullGroups(List<Vector3> allPoints, Quaternion rot, float minDist, int minPts)
     {
         var groups = PointClusterer.ClusterGroups(allPoints, minDist, minPts);
@@ -298,7 +298,7 @@ public class TablePlaneDetector : MonoBehaviour
         {
             if (group.Count < 3) continue;
 
-            // ±×·ì ³ôÀÌ °è»ê
+            // ê·¸ë£¹ ë†’ì´ ê³„ì‚°
             float minY = float.MaxValue;
             float maxY = float.MinValue;
             foreach (var p in group)
@@ -308,20 +308,20 @@ public class TablePlaneDetector : MonoBehaviour
             }
             float height = Mathf.Max(0.05f, maxY - minY);
 
-            // Extruded Mesh »ı¼º
+            // Extruded Mesh ìƒì„±
             Mesh hullMesh = CreateExtrudedHull(group, height, rot);
             if (hullMesh == null) continue;
 
             var go = new GameObject("ObjectHull");
-            _spawnedVisuals.Add(go);   // [»õ ÄÚµå] Á¤¸® ¸®½ºÆ®¿¡ µî·Ï
-            _spawnedHulls.Add(go);     // [»õ ÄÚµå] Çæ Àü¿ë ¸®½ºÆ®¿¡µµ µî·Ï
+            _spawnedVisuals.Add(go);   // [ìƒˆ ì½”ë“œ] ì‹œê°í™” ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+            _spawnedHulls.Add(go);     // [ìƒˆ ì½”ë“œ] í— ì „ìš© ë¦¬ìŠ¤íŠ¸ì—ë„ ì¶”ê°€
 
             if (debugParent) go.transform.SetParent(debugParent, true);
 
             var mf = go.AddComponent<MeshFilter>();
             var mr = go.AddComponent<MeshRenderer>();
-            // [¿ø·¡ ÄÚµå] mr.material = new Material(Shader.Find("Unlit/Color")) { color = Color.green };
-            // [»õ ÄÚµå] hullColor ÇÊµå »ç¿ë(±âº» ÃÊ·Ï)
+            // [ê¸°ì¡´ ì½”ë“œ] mr.material = new Material(Shader.Find("Unlit/Color")) { color = Color.green };
+            // [ìƒˆ ì½”ë“œ] hullColor í•„ë“œ ì‚¬ìš©(ê¸°ë³¸ ì»¬ëŸ¬)
             mr.material = new Material(Shader.Find("Unlit/Color")) { color = hullColor };
             mf.mesh = hullMesh;
 
@@ -330,7 +330,7 @@ public class TablePlaneDetector : MonoBehaviour
             collider.convex = true;
             collider.isTrigger = false;
 
-            // HullClickable Ãß°¡ ¹× ÁÖÀÔ
+            // HullClickable ì¶”ê°€ ë° ì„¤ì •
             var clickable = go.GetComponent<HullClickable>();
             if (clickable == null) clickable = go.AddComponent<HullClickable>();
 
@@ -338,7 +338,7 @@ public class TablePlaneDetector : MonoBehaviour
             clickable.useWorldLocking = useWorldLocking;
             clickable.frozenFromLocked = frozenFromLocked;
 
-            // Å¬¸¯ ÀÔ·ÂÀ» À§ÇØ Collider º¸Àå(¾ÈÀü)
+            // í´ë¦­ ì…ë ¥ì„ ìœ„í•œ Collider í™•ì¸(ì¤‘ë³µ)
             if (go.GetComponent<Collider>() == null)
             {
                 var mc = go.AddComponent<MeshCollider>();
@@ -348,7 +348,7 @@ public class TablePlaneDetector : MonoBehaviour
         }
     }
 
-    // Extruded Mesh »ı¼º
+    // Extruded Mesh ìƒì„±
     private Mesh CreateExtrudedHull(List<Vector3> verts, float height, Quaternion rot)
     {
         int n = verts.Count;
@@ -365,8 +365,8 @@ public class TablePlaneDetector : MonoBehaviour
         List<int> tris = new List<int>();
         for (int i = 1; i < n - 1; i++)
         {
-            tris.Add(0); tris.Add(i + 1); tris.Add(i);                // ¾Æ·¡¸é
-            tris.Add(n); tris.Add(n + i); tris.Add(n + i + 1);        // À§¸é
+            tris.Add(0); tris.Add(i + 1); tris.Add(i);                // ì•„ë˜ë©´
+            tris.Add(n); tris.Add(n + i); tris.Add(n + i + 1);        // ìœ—ë©´
         }
         for (int i = 0; i < n; i++)
         {
@@ -383,9 +383,9 @@ public class TablePlaneDetector : MonoBehaviour
     }
 
     // ------------------------------------------------------------
-    // [»õ ÄÚµå] ¿ÜºÎ¿¡¼­ È£ÃâÇÒ ¼ö ÀÖ´Â Á¤¸® API
-    //  - SpawnManager¿¡¼­ Æ®·¢ »ı¼º ¿Ï·á ½ÃÁ¡¿¡ ClearHulls() È£Ãâ
-    //  - (¸ğµç Ç¥½Ã¸¦ Áö¿ì°í ½ÍÀ¸¸é ClearDetectedVisuals())
+    // [ìƒˆ ì½”ë“œ] ì™¸ë¶€ì—ì„œ í˜¸ì¶œí•  ìˆ˜ ìˆëŠ” ê³µê°œ API
+    //  - SpawnManagerì—ì„œ íŠ¸ë¦¬ê±° ì™„ë£Œ ì´í›„ì— ClearHulls() í˜¸ì¶œ
+    //  - (ëª¨ë“  í‘œì‹œë¬¼ì„ ì‚­ì œí•˜ë ¤ë©´ ClearDetectedVisuals())
     // ------------------------------------------------------------
     public void ClearHulls()
     {
@@ -395,7 +395,7 @@ public class TablePlaneDetector : MonoBehaviour
         }
         _spawnedHulls.Clear();
 
-        if (debugVerboseLog) Debug.Log("[PlaneDetector] Hull(ÃÊ·Ï) Á¦°Å ¿Ï·á");
+        if (debugVerboseLog) Debug.Log("[PlaneDetector] Hull(í—) ì‚­ì œ ì™„ë£Œ");
     }
     public void ClearDetectedVisuals()
     {
@@ -404,7 +404,7 @@ public class TablePlaneDetector : MonoBehaviour
         _spawnedVisuals.Clear();
         _spawnedHulls?.Clear();
 
-        //¾À Àü¿ª¿¡¼­ HullMarkerCube ·ù¸¦ ¸ğµÎ Á¦°Å (È°¼º/ºñÈ°¼º Æ÷ÇÔ)
+        //ë¹„í™œì„±í™”ëœ HullMarkerCube ê°ì²´ë„ ëª¨ë‘ ì‚­ì œ (í™œì„±/ë¹„í™œì„± ë¬´ê´€)
         var all = Resources.FindObjectsOfTypeAll<GameObject>();
         for (int i = 0; i < all.Length; i++)
         {
@@ -413,16 +413,16 @@ public class TablePlaneDetector : MonoBehaviour
             var n = g.name;
             if (string.IsNullOrEmpty(n)) continue;
 
-            // ÀÌ¸§À¸·Î ¸ÅÄª: "HullMarkerCube" ¶Ç´Â "HullMarkerCube(Clone)" µî
+            // ì´ë¦„ìœ¼ë¡œ ì‹ë³„: "HullMarkerCube" ë˜ëŠ” "HullMarkerCube(Clone)" ë“±
             if (n.StartsWith("HullMarkerCube"))
             {
-                // ¿¡µğÅÍ/ºñÈ°¼º±îÁö Æ÷ÇÔµÇ¾î Ã£È÷¹Ç·Î, hideFlags·Î °É·¯Áö´Â °Ç Á¦¿Ü
-                // (ÀÏ¹İ »ı¼º ¿ÀºêÁ§Æ®¸é Destroy·Î ÃæºĞ)
+                // ë¹„í™œì„±í™”/ë¹„í™œì„±í™”ë˜ì–´ ì°¾ì•„ë„, hideFlagsë¡œ ì„¤ì •ë˜ì–´ ìˆ˜ ì—†ìŒ
+                // (ì¼ë°˜ ê²Œì„ì˜¤ë¸Œì íŠ¸ëŠ” Destroyë¡œ ê°€ëŠ¥)
                 Destroy(g);
             }
         }
 
-        if (debugVerboseLog) Debug.Log("[PlaneDetector] ¸ğµç Ç¥½Ã(¶óÀÎ/Á¡/Çæ/¸¶Ä¿) Á¦°Å ¿Ï·á");
+        if (debugVerboseLog) Debug.Log("[PlaneDetector] ëª¨ë“  í‘œì‹œ(ë¼ì¸/ì /í—/ë§ˆì»¤) ì‚­ì œ ì™„ë£Œ");
     }
 
 }

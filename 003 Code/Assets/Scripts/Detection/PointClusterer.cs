@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class PointClusterer
 {
-    // ºü¸¥ ±×¸®µå(º¸xel) Áß½ÉÁ¡ Å¬·¯½ºÅÍ
+    // ê·¸ë¦¬ë“œ ê¸°ë°˜(í”½ì…€) í´ëŸ¬ìŠ¤í„°ë§
     public static List<Vector3> ClusterGrid(List<Vector3> points, float cell, int minPoints)
     {
         List<Vector3> centers = new();
@@ -37,7 +37,7 @@ public static class PointClusterer
         return centers;
     }
 
-    // ¹İ°æ ±â¹İ(°£´Ü) Áß½ÉÁ¡ Å¬·¯½ºÅÍ
+    // ë°˜ê²½ ê¸°ë°˜(ê±°ë¦¬) í´ëŸ¬ìŠ¤í„°ë§
     public static List<Vector3> Cluster(List<Vector3> points, float radius, int minPoints)
     {
         List<Vector3> centers = new();
@@ -74,7 +74,7 @@ public static class PointClusterer
         return centers;
     }
 
-    // ¹°Ã¼ °¨Áö¿ë: Æ÷ÀÎÆ® ¹­À½(Å¬·¯½ºÅÍ) ÀÚÃ¼ ¹İÈ¯ (°£´Ü DBSCAN À¯»ç)
+    // ê·¸ë£¹ í´ëŸ¬ìŠ¤í„°ë§: í¬ì¸íŠ¸ ê·¸ë£¹(í´ëŸ¬ìŠ¤í„°) ì „ì²´ ë°˜í™˜ (ê°„ë‹¨ DBSCAN ë°©ì‹)
     public static List<List<Vector3>> ClusterGroups(List<Vector3> points, float radius, int minPoints)
     {
         var groups = new List<List<Vector3>>();

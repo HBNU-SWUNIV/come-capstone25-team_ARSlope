@@ -529,6 +529,10 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
         return closestOpponent;
     }
 
+    public bool hasItem()
+    {
+        return currentItemVisual != null;
+    }
     #endregion
 
     #region Player CustomProperties 헬퍼 (금괴 동기화)

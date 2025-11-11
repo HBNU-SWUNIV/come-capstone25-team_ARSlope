@@ -267,7 +267,7 @@ public class CarMove : MonoBehaviourPunCallbacks
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Item"))
+        if (other.CompareTag("Item") && !effectHandler.hasItem())
         {
             Debug.Log("아이템 획득!");
             PhotonNetwork.Destroy(other.gameObject);

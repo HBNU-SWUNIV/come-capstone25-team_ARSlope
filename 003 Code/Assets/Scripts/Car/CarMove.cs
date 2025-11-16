@@ -270,7 +270,18 @@ public class CarMove : MonoBehaviourPunCallbacks
         if (other.CompareTag("Item") && !effectHandler.hasItem())
         {
             Debug.Log("아이템 획득!");
-            PhotonNetwork.Destroy(other.gameObject);
+            
+            // ItemSpawner를 찾아서 리스폰 로직 호출
+            ItemSpawner itemSpawner = FindAnyObjectByType<ItemSpawner>();
+            if (itemSpawner != null)
+            {
+                itemSpawner.OnItemCollected(other.gameObject);
+            }
+            else
+            {
+                // ItemSpawner를 찾을 수 없으면 기존처럼 파괴
+                PhotonNetwork.Destroy(other.gameObject);
+            }
 
             if (effectHandler)
             {

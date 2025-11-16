@@ -30,7 +30,7 @@ public class ItemSpawner : MonoBehaviourPun
 
         // 도로 폭 기준 간격 계산
         float roadWidth = splineExtrude.Radius;
-        float baseWidth = 3f * 2f;
+        float baseWidth = 8f;
         float scaleFactor = roadWidth / baseWidth;
         float spacing = roadWidth / 7f; // 7등분
 

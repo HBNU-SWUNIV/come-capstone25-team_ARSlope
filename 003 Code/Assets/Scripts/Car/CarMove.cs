@@ -58,17 +58,6 @@ public class CarMove : MonoBehaviourPunCallbacks
             splineContainer = FindAnyObjectByType<SplineContainer>();
         }
 
-        StartCoroutine(StartRaceAfterDelay());
-    }
-
-    private IEnumerator StartRaceAfterDelay()
-    {
-        yield return new WaitForSeconds(5f);  // 5초 대기 후 레이스 시작
-        raceStarted = true;
-    }
-
-    private void FixedUpdate()
-    {
         if (playerNumberText)
         {
             if (photonView.IsMine)
@@ -83,6 +72,17 @@ public class CarMove : MonoBehaviourPunCallbacks
             }
         }
 
+        StartCoroutine(StartRaceAfterDelay());
+    }
+
+    private IEnumerator StartRaceAfterDelay()
+    {
+        yield return new WaitForSeconds(5f);  // 5초 대기 후 레이스 시작
+        raceStarted = true;
+    }
+
+    private void FixedUpdate()
+    {
         if (!photonView.IsMine || splineContainer == null) return;
 
         if (raceStarted)

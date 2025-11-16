@@ -185,7 +185,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         float totalLength = SplineUtility.CalculateLength(spline, localToWorld);
         if (splineExtrude != null)
         {
-            splineExtrude.Radius = Mathf.Clamp(totalLength * 0.066f, 0.1f, 5f);
+            splineExtrude.Radius = Mathf.Clamp(totalLength * 0.05f, 0.1f, 0.4f);
         }
 
         // 도로 자동 Extrude & 머티리얼 분리
@@ -228,8 +228,8 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         Debug.Log("Spline 생성 완료");
 
         // ---------------------- [원래 코드] 선택 큐브 숨김 ----------------------
-        // foreach (var obj in selectedObjects)
-        //     obj.gameObject.SetActive(false);
+        foreach (var obj in selectedObjects)
+            obj.gameObject.SetActive(false);
         // ----------------------------------------------------------------------
 
         // ---------------------- [새 코드] 트랙 생성 후 정리 & 입력 차단 ----------------------
@@ -310,7 +310,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         Quaternion rot = Quaternion.LookRotation(forward, up);
 
         // ③ 공통 스케일
-        float carScale = splineExtrude.Radius * 0.125f;
+        float carScale = splineExtrude.Radius * 0.1f;
 
         // ④ 왼쪽(마스터) 차량 생성
         GameObject leftCar = PhotonNetwork.Instantiate(
@@ -370,7 +370,7 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         {
             mover.progress = 0f;
             mover.splineContainer = splineContainer;
-            mover.speed = splineExtrude.Radius;
+            mover.speed = Mathf.Min(splineExtrude.Radius * 0.7f, 0.5f);
         }
     }
 

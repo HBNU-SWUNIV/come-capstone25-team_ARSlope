@@ -50,7 +50,7 @@ public class ObstacleSpawner : MonoBehaviourPun
         }
 
         float roadWidth = splineExtrude != null ? splineExtrude.Radius : 1f;
-        float baseWidth = 3f * 2f;
+        float baseWidth = 8f;
         float scaleFactor = roadWidth / baseWidth;
 
         int i = 0;

@@ -46,6 +46,7 @@ public class CarMove : MonoBehaviourPunCallbacks
 
     [SerializeField] private ItemEffectHandler effectHandler;
     [SerializeField] private TMP_Text playerNumberText;
+    private bool playerTextInitialized = false;
 
     private void Start()
     {
@@ -58,21 +59,45 @@ public class CarMove : MonoBehaviourPunCallbacks
             splineContainer = FindAnyObjectByType<SplineContainer>();
         }
 
-        if (playerNumberText)
-        {
-            if (photonView.IsMine)
-            {
-                playerNumberText.text = "Player" + photonView.Owner.ActorNumber;
-                playerNumberText.color = Color.green;
-            }
-            else
-            {
-                playerNumberText.text = "Player" + photonView.Owner.ActorNumber;
-                playerNumberText.color = Color.red;
-            }
-        }
-
+        // 오너 변경 후 텍스트 업데이트를 위해 약간 지연
+        StartCoroutine(UpdatePlayerTextDelayed());
         StartCoroutine(StartRaceAfterDelay());
+    }
+
+    // 포톤 오너 변경 시 호출되는 콜백
+    public override void OnOwnershipChanged(Photon.Realtime.Player previousOwner, Photon.Realtime.Player newOwner)
+    {
+        base.OnOwnershipChanged(previousOwner, newOwner);
+        UpdatePlayerText();
+    }
+
+    // 플레이어 텍스트 업데이트 (오너 변경 후 정확한 IsMine 체크)
+    private void UpdatePlayerText()
+    {
+        if (playerNumberText == null) return;
+
+        if (photonView.IsMine)
+        {
+            playerNumberText.text = "Player" + photonView.Owner.ActorNumber;
+            playerNumberText.color = Color.green;
+        }
+        else
+        {
+            playerNumberText.text = "Player" + photonView.Owner.ActorNumber;
+            playerNumberText.color = Color.red;
+        }
+        playerTextInitialized = true;
+    }
+
+    // 오너 변경 후 텍스트 업데이트를 위한 지연 코루틴
+    private IEnumerator UpdatePlayerTextDelayed()
+    {
+        // 오너 변경이 완료될 때까지 대기
+        yield return new WaitForSeconds(0.1f);
+        if (!playerTextInitialized)
+        {
+            UpdatePlayerText();
+        }
     }
 
     private IEnumerator StartRaceAfterDelay()

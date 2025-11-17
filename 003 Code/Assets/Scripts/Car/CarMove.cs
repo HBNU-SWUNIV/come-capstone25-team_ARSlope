@@ -46,7 +46,7 @@ public class CarMove : MonoBehaviourPunCallbacks
 
     [SerializeField] private ItemEffectHandler effectHandler;
     [SerializeField] private TMP_Text playerNumberText;
-    private bool playerTextInitialized = false;
+    private bool previousIsMine = false; // 이전 프레임의 IsMine 상태
 
     private void Start()
     {
@@ -59,22 +59,29 @@ public class CarMove : MonoBehaviourPunCallbacks
             splineContainer = FindAnyObjectByType<SplineContainer>();
         }
 
-        // 오너 변경 후 텍스트 업데이트를 위해 약간 지연
-        StartCoroutine(UpdatePlayerTextDelayed());
+        // 초기 텍스트 설정 및 상태 초기화
+        if (photonView != null)
+        {
+            previousIsMine = photonView.IsMine;
+        }
+        UpdatePlayerText();
         StartCoroutine(StartRaceAfterDelay());
     }
 
-    // 포톤 오너 변경 시 호출되는 콜백
-    public override void OnOwnershipChanged(Photon.Realtime.Player previousOwner, Photon.Realtime.Player newOwner)
+    private void Update()
     {
-        base.OnOwnershipChanged(previousOwner, newOwner);
-        UpdatePlayerText();
+        // 오너 변경 감지: IsMine 상태가 변경되었을 때만 텍스트 업데이트
+        if (photonView != null && previousIsMine != photonView.IsMine)
+        {
+            UpdatePlayerText();
+            previousIsMine = photonView.IsMine;
+        }
     }
 
-    // 플레이어 텍스트 업데이트 (오너 변경 후 정확한 IsMine 체크)
+    // 플레이어 텍스트 업데이트
     private void UpdatePlayerText()
     {
-        if (playerNumberText == null) return;
+        if (playerNumberText == null || photonView == null) return;
 
         if (photonView.IsMine)
         {
@@ -85,18 +92,6 @@ public class CarMove : MonoBehaviourPunCallbacks
         {
             playerNumberText.text = "Player" + photonView.Owner.ActorNumber;
             playerNumberText.color = Color.red;
-        }
-        playerTextInitialized = true;
-    }
-
-    // 오너 변경 후 텍스트 업데이트를 위한 지연 코루틴
-    private IEnumerator UpdatePlayerTextDelayed()
-    {
-        // 오너 변경이 완료될 때까지 대기
-        yield return new WaitForSeconds(0.1f);
-        if (!playerTextInitialized)
-        {
-            UpdatePlayerText();
         }
     }
 

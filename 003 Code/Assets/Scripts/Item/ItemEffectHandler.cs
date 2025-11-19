@@ -132,8 +132,8 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
             // 무적 효과는 모든 클라이언트에 전파되어야 함
             photonView.RPC("RPC_SetInvincibility", RpcTarget.All, true);
             // 일정 시간 후 무적 해제 RPC 예약
-            StartCoroutine(ResetInvincibility(5f));
-            ShowItemOnCar(crownPrefab, 5f);
+            StartCoroutine(ResetInvincibility(3f));
+            ShowItemOnCar(crownPrefab, 3f);
         }
         else if (random < 85)
         {

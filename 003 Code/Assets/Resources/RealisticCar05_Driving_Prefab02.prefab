@@ -14045,7 +14045,7 @@ MonoBehaviour:
   itemDisplayPoint: {fileID: 9056259542724131352}
   crownPrefab: {fileID: 8888413695247917893, guid: 5c887b864f380774a97032b83ca74a9b, type: 3}
   goldPrefab: {fileID: 840987506194005189, guid: 6fa5c6f118f67ef48868dc2ccd5c5368, type: 3}
-  boosterPrefab: {fileID: 6454301430270579990, guid: 932eb06fda237574a92cc294ec3042cb, type: 3}
+  boosterPrefab: {fileID: 7832487161719283487, guid: f5c933c609255124db87c84cf9c71a98, type: 3}
   bombPrefab: {fileID: 7334895902766689618, guid: d58edf60d053db8409d1341433f33ed4, type: 3}
   oilRedPrefab: {fileID: 7243096277806350999, guid: 7144a51adebcd9e4e8f0468296adb983, type: 3}
   oilGreenPrefab: {fileID: 2965347479976651862, guid: 3da4f1f0dd45bf84e8cbc27b3bdefa36, type: 3}

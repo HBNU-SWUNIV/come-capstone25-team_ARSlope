@@ -13,7 +13,7 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
 
     // private int goldCount = 0; // -> CustomProperties로 대체
     private bool isInvincible = false;
-    private Collider myCollider;
+    [SerializeField] private Collider myCollider;
 
     [Header("시각적 아이템 표시 위치")]
     public Transform itemDisplayPoint;
@@ -43,7 +43,6 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
     private void Start()
     {
         carMove = GetComponent<CarMove>();
-        myCollider = GetComponent<Collider>();
         raceManager ??= FindAnyObjectByType<RaceManager>();
 
         if (carMove == null)

@@ -284,9 +284,15 @@ public class CarMove : MonoBehaviourPunCallbacks
     /// <param name="enabled">true면 움직임 활성화, false면 움직임 중지</param>
     public void SetMovementEnabled(bool enabled)
     {
+        isMovingAllowed = enabled;
         if (rb != null)
         {
             rb.isKinematic = !enabled;
+            if (!enabled)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
         }
     }
 

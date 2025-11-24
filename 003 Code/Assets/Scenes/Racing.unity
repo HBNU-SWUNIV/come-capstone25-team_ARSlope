@@ -1014,7 +1014,7 @@ GameObject:
   - component: {fileID: 582734156}
   - component: {fileID: 582734159}
   - component: {fileID: 582734160}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Spawn Manager
   m_TagString: Spline
   m_Icon: {fileID: 0}

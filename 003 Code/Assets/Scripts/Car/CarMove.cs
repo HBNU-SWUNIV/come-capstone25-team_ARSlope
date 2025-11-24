@@ -16,6 +16,7 @@ public class CarMove : MonoBehaviourPunCallbacks
 
     [Tooltip("리스폰 시 트랙에서 들어올릴 y 오프셋(m)")]
     public float respawnLift = 0.1f;
+    public LayerMask groundLayer;
 
     // ────── 리스폰 파라미터 ──────
     [Header("Off‑Track Respawn")]
@@ -65,7 +66,7 @@ public class CarMove : MonoBehaviourPunCallbacks
             previousIsMine = photonView.IsMine;
         }
         UpdatePlayerText();
-        
+
         // 레이스 시작 전 움직임 중지
         SetMovementEnabled(false);
         StartCoroutine(StartRaceAfterDelay());
@@ -253,6 +254,18 @@ public class CarMove : MonoBehaviourPunCallbacks
                 Quaternion targetRot = Quaternion.LookRotation(dir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * 1.5f);
             }
+            Vector3 moveDir = transform.forward; // 기본은 전방
+
+            // 차 위치에서 아래로 레이를 쏘아 바닥의 기울기(Normal)를 알아냄
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 2.0f, groundLayer))
+            {
+                // 전진 벡터를 바닥 경사면에 투영(Projection)
+                moveDir = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
+
+                // (선택사항) 시각적으로 차가 경사면을 따라 기울게 하고 싶다면:
+                // 이 부분은 Mesh만 따로 회전시키거나 전체 회전을 보간해야 해서 복잡해질 수 있으니,
+                // 일단 '이동'만 잘 되게 하려면 위의 ProjectOnPlane만 있어도 충분합니다.
+            }
             rb.linearVelocity = transform.forward * speed;
         }
         else rb.linearVelocity = Vector3.zero;
@@ -304,12 +317,12 @@ public class CarMove : MonoBehaviourPunCallbacks
         {
             // ItemSpawner를 찾아서 리스폰 로직 호출
             ItemSpawner itemSpawner = FindAnyObjectByType<ItemSpawner>();
-            
+
             // 이미 아이템을 가지고 있는 경우, 박스만 파괴
             if (effectHandler.hasItem())
             {
                 Debug.Log("아이템 보유 중 - 박스만 파괴");
-                
+
                 if (itemSpawner != null)
                 {
                     itemSpawner.OnItemCollected(other.gameObject);
@@ -321,10 +334,10 @@ public class CarMove : MonoBehaviourPunCallbacks
                 }
                 return; // 아이템 효과는 적용하지 않음
             }
-            
+
             // 아이템을 가지고 있지 않은 경우, 정상적으로 획득
             Debug.Log("아이템 획득!");
-            
+
             if (itemSpawner != null)
             {
                 itemSpawner.OnItemCollected(other.gameObject);

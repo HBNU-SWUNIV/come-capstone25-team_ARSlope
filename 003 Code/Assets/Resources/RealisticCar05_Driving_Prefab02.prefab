@@ -13952,6 +13952,9 @@ MonoBehaviour:
   splineContainer: {fileID: 0}
   speed: 0.3
   respawnLift: 0.1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   offTrackDistance: 2
   offTrackHeight: 0.5
   respawnCooldown: 2

@@ -13955,6 +13955,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  slopeForceMultiplier: 2
+  minSlopeAngle: 5
+  maxSlopeForce: 10
   offTrackDistance: 2
   offTrackHeight: 0.5
   respawnCooldown: 2

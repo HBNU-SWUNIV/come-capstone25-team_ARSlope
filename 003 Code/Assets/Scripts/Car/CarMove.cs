@@ -18,6 +18,14 @@ public class CarMove : MonoBehaviourPunCallbacks
     public float respawnLift = 0.1f;
     public LayerMask groundLayer;
 
+    [Header("Slope Compensation")]
+    [Tooltip("경사면을 오르기 위한 추가 힘 배율 (경사가 급할수록 더 큰 힘 필요)")]
+    public float slopeForceMultiplier = 2.0f;
+    [Tooltip("경사면 각도 보정을 위한 최소 각도 (이 각도 이상일 때만 보정 적용)")]
+    public float minSlopeAngle = 5f;
+    [Tooltip("경사면 오르기 최대 힘 (무한정 힘을 주지 않도록 제한)")]
+    public float maxSlopeForce = 10f;
+
     // ────── 리스폰 파라미터 ──────
     [Header("Off‑Track Respawn")]
     [Tooltip("트랙 중앙선에서 이 이상 멀어지면 리스폰")] public float offTrackDistance = 2f;
@@ -255,18 +263,39 @@ public class CarMove : MonoBehaviourPunCallbacks
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * 1.5f);
             }
             Vector3 moveDir = transform.forward; // 기본은 전방
+            Vector3 groundNormal = Vector3.up; // 기본값
+            float slopeAngle = 0f;
 
             // 차 위치에서 아래로 레이를 쏘아 바닥의 기울기(Normal)를 알아냄
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, out RaycastHit hit, 2.0f, groundLayer))
             {
+                groundNormal = hit.normal;
                 // 전진 벡터를 바닥 경사면에 투영(Projection)
-                moveDir = Vector3.ProjectOnPlane(transform.forward, hit.normal).normalized;
+                moveDir = Vector3.ProjectOnPlane(transform.forward, groundNormal).normalized;
 
-                // (선택사항) 시각적으로 차가 경사면을 따라 기울게 하고 싶다면:
-                // 이 부분은 Mesh만 따로 회전시키거나 전체 회전을 보간해야 해서 복잡해질 수 있으니,
-                // 일단 '이동'만 잘 되게 하려면 위의 ProjectOnPlane만 있어도 충분합니다.
+                // 경사면 각도 계산 (수평면과의 각도)
+                slopeAngle = Vector3.Angle(groundNormal, Vector3.up);
             }
-            rb.linearVelocity = transform.forward * speed;
+
+            // 경사면에 맞춘 이동 방향으로 속도 설정
+            rb.linearVelocity = moveDir * speed;
+
+            // 경사면을 오르기 위한 추가 힘 적용
+            if (slopeAngle > minSlopeAngle)
+            {
+                // 경사면의 오르막 방향 계산 (경사면 normal과 수직이면서 위쪽 성분이 있는 방향)
+                Vector3 slopeUpDirection = Vector3.ProjectOnPlane(Vector3.up, groundNormal).normalized;
+                
+                // 경사가 급할수록 더 큰 힘 필요 (sin(각도) 사용)
+                float slopeFactor = Mathf.Sin(slopeAngle * Mathf.Deg2Rad);
+                float additionalForce = slopeFactor * slopeForceMultiplier * speed;
+                
+                // 최대 힘 제한
+                additionalForce = Mathf.Min(additionalForce, maxSlopeForce);
+                
+                // 경사면을 오르는 방향으로 힘 추가
+                rb.AddForce(slopeUpDirection * additionalForce, ForceMode.Acceleration);
+            }
         }
         else rb.linearVelocity = Vector3.zero;
     }

@@ -119,13 +119,13 @@ public class ItemEffectHandler : MonoBehaviourPunCallbacks // MonoBehaviourPun �
             ApplyOilEffect(1.1f);
             ShowItemOnCar(oilGreenPrefab, 3f);
         }
-        else if (random < 50)
+        else if (random < 45)
         {
             Debug.Log("💣 폭탄 발동!");
             UseBomb(); // 로컬에서 폭탄 발사
             ShowItemOnCar(bombPrefab, 3f);
         }
-        else if (random < 70)
+        else if (random < 65)
         {
             Debug.Log("👑 왕관 발동!");
             // 무적 효과는 모든 클라이언트에 전파되어야 함

@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: 12105764b5ab93a4f8cb0eb2126ba1b4
+timeCreated: 1541845993
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Car05_Body
+    100002: Car05_Body_LOD3
+    100004: Car05_BrakeCaliper_Front_Left
+    100006: Car05_BrakeCaliper_Front_Right
+    100008: Car05_BrakeCaliper_FrontLeft_LOD3
+    100010: Car05_BrakeCaliper_FrontRight_LOD3
+    100012: Car05_BrakeCaliper_Rear_Left
+    100014: Car05_BrakeCaliper_Rear_Right
+    100016: Car05_BrakeCaliper_RearLeft_LOD3
+    100018: Car05_BrakeCaliper_RearRight_LOD3
+    100020: Car05_BrakeDisc_FrontLeft_LOD3
+    100022: Car05_BrakeDisc_FrontRight_LOD3
+    100024: Car05_BrakeDisc_RearLeft_LOD3
+    100026: Car05_BrakeDisc_RearRight_LOD3
+    100028: Car05_Door_Left
+    100030: Car05_Door_Left_LOD3
+    100032: Car05_Door_Right
+    100034: Car05_Door_Right_LOD3
+    100036: Car05_Glass_LOD3
+    100038: Car05_Interior
+    100040: Car05_Interior_LOD3
+    100042: Car05_Wheel_Front_Left
+    100044: Car05_Wheel_Front_Left_LOD3
+    100046: Car05_Wheel_Front_Right
+    100048: Car05_Wheel_Front_Right_LOD3
+    100050: Car05_Wheel_Rear_Left
+    100052: Car05_Wheel_Rear_Left_LOD3
+    100054: Car05_Wheel_Rear_Right
+    100056: Car05_Wheel_Rear_Right_LOD3
+    100058: Plane001
+    100060: //RootNode
+    400000: Car05_Body
+    400002: Car05_Body_LOD3
+    400004: Car05_BrakeCaliper_Front_Left
+    400006: Car05_BrakeCaliper_Front_Right
+    400008: Car05_BrakeCaliper_FrontLeft_LOD3
+    400010: Car05_BrakeCaliper_FrontRight_LOD3
+    400012: Car05_BrakeCaliper_Rear_Left
+    400014: Car05_BrakeCaliper_Rear_Right
+    400016: Car05_BrakeCaliper_RearLeft_LOD3
+    400018: Car05_BrakeCaliper_RearRight_LOD3
+    400020: Car05_BrakeDisc_FrontLeft_LOD3
+    400022: Car05_BrakeDisc_FrontRight_LOD3
+    400024: Car05_BrakeDisc_RearLeft_LOD3
+    400026: Car05_BrakeDisc_RearRight_LOD3
+    400028: Car05_Door_Left
+    400030: Car05_Door_Left_LOD3
+    400032: Car05_Door_Right
+    400034: Car05_Door_Right_LOD3
+    400036: Car05_Glass_LOD3
+    400038: Car05_Interior
+    400040: Car05_Interior_LOD3
+    400042: Car05_Wheel_Front_Left
+    400044: Car05_Wheel_Front_Left_LOD3
+    400046: Car05_Wheel_Front_Right
+    400048: Car05_Wheel_Front_Right_LOD3
+    400050: Car05_Wheel_Rear_Left
+    400052: Car05_Wheel_Rear_Left_LOD3
+    400054: Car05_Wheel_Rear_Right
+    400056: Car05_Wheel_Rear_Right_LOD3
+    400058: Plane001
+    400060: //RootNode
+    2300000: Car05_Body_LOD3
+    2300002: Car05_BrakeCaliper_FrontLeft_LOD3
+    2300004: Car05_BrakeCaliper_FrontRight_LOD3
+    2300006: Car05_BrakeCaliper_RearLeft_LOD3
+    2300008: Car05_BrakeCaliper_RearRight_LOD3
+    2300010: Car05_BrakeDisc_FrontLeft_LOD3
+    2300012: Car05_BrakeDisc_FrontRight_LOD3
+    2300014: Car05_BrakeDisc_RearLeft_LOD3
+    2300016: Car05_BrakeDisc_RearRight_LOD3
+    2300018: Car05_Door_Left_LOD3
+    2300020: Car05_Door_Right_LOD3
+    2300022: Car05_Glass_LOD3
+    2300024: Car05_Interior_LOD3
+    2300026: Car05_Wheel_Front_Left_LOD3
+    2300028: Car05_Wheel_Front_Right_LOD3
+    2300030: Car05_Wheel_Rear_Left_LOD3
+    2300032: Car05_Wheel_Rear_Right_LOD3
+    2300034: Plane001
+    3300000: Car05_Body_LOD3
+    3300002: Car05_BrakeCaliper_FrontLeft_LOD3
+    3300004: Car05_BrakeCaliper_FrontRight_LOD3
+    3300006: Car05_BrakeCaliper_RearLeft_LOD3
+    3300008: Car05_BrakeCaliper_RearRight_LOD3
+    3300010: Car05_BrakeDisc_FrontLeft_LOD3
+    3300012: Car05_BrakeDisc_FrontRight_LOD3
+    3300014: Car05_BrakeDisc_RearLeft_LOD3
+    3300016: Car05_BrakeDisc_RearRight_LOD3
+    3300018: Car05_Door_Left_LOD3
+    3300020: Car05_Door_Right_LOD3
+    3300022: Car05_Glass_LOD3
+    3300024: Car05_Interior_LOD3
+    3300026: Car05_Wheel_Front_Left_LOD3
+    3300028: Car05_Wheel_Front_Right_LOD3
+    3300030: Car05_Wheel_Rear_Left_LOD3
+    3300032: Car05_Wheel_Rear_Right_LOD3
+    3300034: Plane001
+    4300000: Car05_Interior_LOD3
+    4300002: Car05_Door_Right_LOD3
+    4300004: Car05_Door_Left_LOD3
+    4300006: Car05_Body_LOD3
+    4300008: Car05_Glass_LOD3
+    4300010: Car05_BrakeDisc_FrontRight_LOD3
+    4300012: Car05_Wheel_Front_Right_LOD3
+    4300014: Car05_BrakeCaliper_FrontRight_LOD3
+    4300016: Car05_Wheel_Front_Left_LOD3
+    4300018: Car05_BrakeDisc_FrontLeft_LOD3
+    4300020: Car05_BrakeDisc_RearLeft_LOD3
+    4300022: Car05_Wheel_Rear_Left_LOD3
+    4300024: Car05_BrakeCaliper_RearLeft_LOD3
+    4300026: Car05_BrakeCaliper_RearRight_LOD3
+    4300028: Car05_BrakeDisc_RearRight_LOD3
+    4300030: Car05_Wheel_Rear_Right_LOD3
+    4300032: Car05_BrakeCaliper_FrontLeft_LOD3
+    4300034: Plane001
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133027
+  packageName: Realistic Car HD 05
+  packageVersion: 1.1
+  assetPath: Assets/RealisticCars_HD/RealisticCar05_HD/Meshes/RealisticCar05_HD_LOD3.FBX
+  uploadId: 284158

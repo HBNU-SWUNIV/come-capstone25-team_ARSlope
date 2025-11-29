@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 268cfed989f84684fb2f83244c4605af
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/_Demo/Materials/Road.mat
+  uploadId: 805692

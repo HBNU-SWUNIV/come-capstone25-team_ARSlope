@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 74a36790311a496c80747baf9c2abc5a
+timeCreated: 1711010726
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/Runtime/SplineMesher.Splines.cs
+  uploadId: 805692

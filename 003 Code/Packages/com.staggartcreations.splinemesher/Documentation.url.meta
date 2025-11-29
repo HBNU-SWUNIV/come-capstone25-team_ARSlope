@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: dbdf64c17180cc0439dd1d1ec046f734
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/Documentation.url
+  uploadId: 805692

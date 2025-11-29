@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4613164d883fb234eb4b670d60ef4654
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/Runtime/sc.modeling.splines.runtime.asmdef
+  uploadId: 805692

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 4e07c828419247278e372618a641b045
+timeCreated: 1711010900
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/Runtime/SplineMeshGenerator.cs
+  uploadId: 805692

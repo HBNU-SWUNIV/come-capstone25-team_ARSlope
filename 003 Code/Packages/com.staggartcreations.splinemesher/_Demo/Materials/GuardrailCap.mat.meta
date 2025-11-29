@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 32ced7432f808a344877070676f01f69
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280289
+  packageName: Spline Mesher
+  packageVersion: 1.3.1
+  assetPath: Packages/com.staggartcreations.splinemesher/_Demo/Materials/GuardrailCap.mat
+  uploadId: 805692

@@ -33,6 +33,11 @@ public class CarMove : MonoBehaviourPunCallbacks
     [Tooltip("트랙 높이에서 이 이상 위/아래로 벗어나면 리스폰")] public float offTrackHeight = 0.5f;
     [Tooltip("한 번 리스폰 후 다음 리스폰까지 쿨타임(s)")] public float respawnCooldown = 2f;
 
+    [Header("Flipped Respawn")]
+    [Tooltip("차가 뒤집힌 상태로 유지되면 리스폰할 시간(초)")] public float flipRespawnTime = 3f;
+    [Tooltip("뒤집힘 판정 각도 (이 각도 이상 기울어지면 뒤집힌 것으로 간주)")] public float flipAngleThreshold = 60f;
+
+
     // ────── 내부 상태 ──────
     [HideInInspector] public float progress;      // 0‒1
     private Rigidbody rb;
@@ -52,6 +57,8 @@ public class CarMove : MonoBehaviourPunCallbacks
     // 리스폰 관련
     private float lastSafeProgress = 0f;   // 마지막으로 "온트랙" 판정된 위치
     private float lastRespawnTime = -Mathf.Infinity;
+    private float currentFlippedTime = 0f;
+    private bool isFlipped = false;
     private bool isMovingAllowed = true; // 차량 이동 허용 플래그
 
     [SerializeField] private ItemEffectHandler effectHandler;
@@ -119,7 +126,7 @@ public class CarMove : MonoBehaviourPunCallbacks
     {
         // 한 프레임 대기하여 위치 설정이 완료되도록 함
         yield return new WaitForFixedUpdate();
-        
+
         // 이제 kinematic을 true로 설정하여 움직임 비활성화
         if (rb != null)
         {
@@ -148,6 +155,7 @@ public class CarMove : MonoBehaviourPunCallbacks
 
             UpdateProgressAndMove();   // 손/키 입력 → 차 이동
             MaybeRespawn();           // 트랙 이탈 체크
+            CheckFlipped();           // 뒤집힘 체크
             DetectLapAndWin();        // 랩·우승 판정
         }
 
@@ -185,6 +193,47 @@ public class CarMove : MonoBehaviourPunCallbacks
             isMovingAllowed = false;
             RespawnAtProgress(lastSafeProgress);
             lastRespawnTime = Time.time;
+        }
+    }
+
+    /// <summary>
+    /// 차가 뒤집혀 있는지 확인하고 일정 시간 이상 지속되면 리스폰.
+    /// </summary>
+    private void CheckFlipped()
+    {
+        // 쿨타임 중이면 체크 안 함
+        if (Time.time - lastRespawnTime < respawnCooldown)
+        {
+            currentFlippedTime = 0f;
+            isFlipped = false;
+            return;
+        }
+
+        // 현재 진행도의 트랙 Up 벡터 가져오기
+        splineContainer.Spline.Evaluate(progress, out _, out _, out var upF3);
+        Vector3 trackUp = ((Vector3)upF3).normalized;
+
+        // 차의 Up 벡터와 트랙의 Up 벡터 사이의 각도 계산
+        float angle = Vector3.Angle(transform.up, trackUp);
+
+        // 각도가 임계값보다 크면 뒤집힌 것으로 간주
+        if (angle > flipAngleThreshold)
+        {
+            isFlipped = true;
+            currentFlippedTime += Time.fixedDeltaTime;
+            if (currentFlippedTime > flipRespawnTime)
+            {
+                Debug.Log($"[{photonView.OwnerActorNr}] Car flipped for {currentFlippedTime:F1}s. Respawning...");
+                RespawnAtProgress(lastSafeProgress);
+                currentFlippedTime = 0f;
+                lastRespawnTime = Time.time;
+                isFlipped = false;
+            }
+        }
+        else
+        {
+            isFlipped = false;
+            currentFlippedTime = 0f;
         }
     }
 
@@ -266,6 +315,8 @@ public class CarMove : MonoBehaviourPunCallbacks
 
         lastSafeProgress = progress; // 온트랙으로 판정된 가장 최근 진행도 저장
 
+        if (isFlipped) return;
+
         // ──── 손/키 입력 → 이동(예시는 손 추적) ────
         if (HandJointUtils.TryGetJointPose(TrackedHandJoint.IndexTip, Handedness.Right, out var rightHand))
         {
@@ -298,14 +349,14 @@ public class CarMove : MonoBehaviourPunCallbacks
             {
                 // 경사면의 오르막 방향 계산 (경사면 normal과 수직이면서 위쪽 성분이 있는 방향)
                 Vector3 slopeUpDirection = Vector3.ProjectOnPlane(Vector3.up, groundNormal).normalized;
-                
+
                 // 경사가 급할수록 더 큰 힘 필요 (sin(각도) 사용)
                 float slopeFactor = Mathf.Sin(slopeAngle * Mathf.Deg2Rad);
                 float additionalForce = slopeFactor * slopeForceMultiplier * speed;
-                
+
                 // 최대 힘 제한
                 additionalForce = Mathf.Min(additionalForce, maxSlopeForce);
-                
+
                 // 경사면을 오르는 방향으로 힘 추가
                 rb.AddForce(slopeUpDirection * additionalForce, ForceMode.Acceleration);
             }
@@ -377,7 +428,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         // 차량의 초기 위치 결정 (ActorNumber 기준: 1번은 왼쪽, 2번은 오른쪽)
         float laneOffset = 0.2f; // SplineExtrude의 Radius를 모르므로 기본값 사용
         float heightLift = 0.1f;
-        
+
         // SplineExtrude를 찾아서 정확한 오프셋 계산
         SplineExtrude splineExtrude = FindAnyObjectByType<SplineExtrude>();
         if (splineExtrude != null)
@@ -391,7 +442,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         {
             // ActorNumber가 1이거나 홀수면 왼쪽, 짝수면 오른쪽
             bool isLeft = (photonView.Owner.ActorNumber % 2 == 1);
-            initialPos = isLeft 
+            initialPos = isLeft
                 ? center - right * laneOffset + up * heightLift
                 : center + right * laneOffset + up * heightLift;
         }
@@ -416,7 +467,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         // transform을 먼저 설정한 후 Rigidbody를 동기화
         transform.position = initialPos;
         transform.rotation = initialRot;
-        
+
         if (rb != null)
         {
             // Rigidbody의 position과 rotation을 직접 설정
@@ -446,11 +497,11 @@ public class CarMove : MonoBehaviourPunCallbacks
 
         // 레이스 시작 코루틴 재시작 (먼저 중지)
         StopAllCoroutines();
-        
+
         // 움직임 비활성화 (레이스 시작 대기) - 위치 설정 후에 호출
         // 코루틴에서 kinematic을 설정하도록 지연
         StartCoroutine(SetKinematicAfterPositionUpdate());
-        
+
         // 레이스 시작 코루틴 재시작
         StartCoroutine(StartRaceAfterDelay());
 

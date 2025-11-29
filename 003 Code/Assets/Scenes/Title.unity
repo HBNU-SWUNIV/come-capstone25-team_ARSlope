@@ -848,15 +848,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4229814064075198, guid: 088efeed31a081c419979a80a12c5b0f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.33333334
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4229814064075198, guid: 088efeed31a081c419979a80a12c5b0f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.16666667
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4229814064075198, guid: 088efeed31a081c419979a80a12c5b0f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.33333334
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4229814064075198, guid: 088efeed31a081c419979a80a12c5b0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -947,9 +947,9 @@ MonoBehaviour:
   smoothing: 1
   lifetime: 0
   DirectionalTarget: {fileID: 321842826}
-  MinIndicatorScale: 0.05
-  MaxIndicatorScale: 0.2
-  VisibilityScaleFactor: 0.8
+  MinIndicatorScale: 1
+  MaxIndicatorScale: 1
+  VisibilityScaleFactor: 1
   ViewOffset: 0.3
 --- !u!114 &914194348
 MonoBehaviour:

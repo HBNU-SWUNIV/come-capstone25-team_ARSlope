@@ -366,7 +366,15 @@ public class SpawnManager : MonoBehaviourPun, IMixedRealityPointerHandler
         }
 
         // 레이싱 카가 모두 생성된 후 재시작 가능하도록 설정
-        canRestart = true;
+        //canRestart = true;
+        photonView.RPC("SetCanRestart", RpcTarget.AllBuffered, true);
+    }
+
+    [PunRPC]
+    public void SetCanRestart(bool value)
+    {
+        canRestart = value;
+        Debug.Log($"[SpawnManager] canRestart set to {value}");
     }
 
     void InitCar(GameObject car, SplineExtrude splineExtrude)

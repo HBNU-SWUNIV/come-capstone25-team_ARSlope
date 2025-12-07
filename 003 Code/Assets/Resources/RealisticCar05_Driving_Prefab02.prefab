@@ -13962,7 +13962,7 @@ MonoBehaviour:
   offTrackHeight: 0.5
   respawnCooldown: 2
   flipRespawnTime: 3
-  flipAngleThreshold: 60
+  flipAngleThreshold: 90
   progress: 0
   goalLaps: 2
   finished: 0

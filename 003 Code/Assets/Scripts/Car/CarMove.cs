@@ -247,7 +247,7 @@ public class CarMove : MonoBehaviourPunCallbacks
         splineContainer.Spline.Evaluate(t, out var posF3, out var tanF3, out var upF3);
         Vector3 newPos = (Vector3)posF3 + (Vector3)upF3 * respawnLift;
         // 차량이 뒤집히는 것을 방지하기 위해 월드 '위' 방향을 기준으로 회전 설정
-        Quaternion newRot = Quaternion.LookRotation((Vector3)tanF3, Vector3.up);
+        Quaternion newRot = Quaternion.LookRotation((Vector3)tanF3, (Vector3)upF3);
 
         rb.position = newPos;
         rb.rotation = newRot;
